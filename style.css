@@ -31,11 +31,12 @@ nav h1{
 .btn-primario{
     border:0px;
     border-radius:15px;
-    padding: 15px 70px;
+    padding: 15px 40px;
     background-color: #EC362D;
     color:white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     font-weight: 400;
+    font-size: 18px;
 }
 
 button:hover{
@@ -55,7 +56,7 @@ button:hover{
 
 
 /*CSS tela 2*************************************/
-.cria-quiz-layout{
+.cria-quiz{
     padding-top: 69px;
     display:flex;
     flex-direction: column;
@@ -64,13 +65,24 @@ button:hover{
     width:100%;
 }
 
-.cria-quiz-layout p{
+/*subtitulos dos inputs*/
+.cria-quiz p{
     font-weight: 700;
-    margin:37px 0px 29px 0px;
+    margin:0px 0px 15px 0px;
+}
+
+/*titulo do quiz - tela 1, tela 2, tela 3*/
+.cria-quiz p:first-child{
+    margin:38px 0px 29px 0px;
+}
+
+/*div que agrupa*/
+.card-inputs-quiz .group-inputs{
+    margin-bottom: 20px;
 }
 
 .card-inputs-quiz{
-    display:flex;
+    display:flex;   
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -83,6 +95,7 @@ button:hover{
 }
 
 .card-inputs-quiz input{
+    box-sizing: border-box;
     margin:5px 0px;
     height: 46px;
     width:100%;
