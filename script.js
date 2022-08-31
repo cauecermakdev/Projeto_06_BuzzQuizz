@@ -22,7 +22,7 @@ function setTelaUmCriaQuiz() {
     `
 }
 
-setTelaUmCriaQuiz();
+//setTelaUmCriaQuiz();
 
 
 //tela 3.2
