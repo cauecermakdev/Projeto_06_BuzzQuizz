@@ -1,10 +1,10 @@
 
-/*CSS todas telas*/
+/*CSS todas telas********************************/
 body{
     font-family: 'Roboto', sans-serif;
     width:100%;
     height: 100%;
-    background-color: #E5E5E5;
+    background-color: #fafafa;
 }
 
 nav{
@@ -22,7 +22,24 @@ nav{
 }
 
 nav h1{
+    color:white;
+    font-weight: 700;
+    font-size:37px; 
+}
 
+
+.btn-primario{
+    border:0px;
+    border-radius:15px;
+    padding: 15px 70px;
+    background-color: #EC362D;
+    color:white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    font-weight: 400;
+}
+
+button:hover{
+    opacity:0.7;
 }
 
 /*CSS genéricos*********************************/
@@ -31,9 +48,54 @@ nav h1{
 }
 
 .display-flex-center{
+    display:flex;
     align-items: center;
     justify-content: center;
 }
 
 
-/*CSS tela 2****************8/
+/*CSS tela 2*************************************/
+.cria-quiz-layout{
+    padding-top: 69px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+}
+
+.cria-quiz-layout p{
+    font-weight: 700;
+    margin:37px 0px 29px 0px;
+}
+
+.card-inputs-quiz{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color:#FFFFFF;
+    box-shadow: 0px 0px 5px 0px rgb(0,0,0,0.4);
+    padding: 21px 18px;
+    box-sizing: border-box;
+    margin-bottom: 29px;
+    width:100%;
+}
+
+.card-inputs-quiz input{
+    margin:5px 0px;
+    height: 46px;
+    width:100%;
+    border-radius: 5px;
+    border:1px solid #D1D1D1;
+    padding-left:14px;
+    font-size: 19px;
+    font-style: italic;
+    color:#BABABA;
+}
+
+.card-inputs-quiz input:focus{
+    color:black;
+    font-style: normal;
+    /*outline: 1.5px solid rgb(236, 54, 45,0.5);*/
+}
