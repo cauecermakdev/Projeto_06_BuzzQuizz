@@ -18,11 +18,11 @@ function setTelaUmCriaQuiz() {
         <input placeholder ="Título do seu quizz" type="text">
     </div>  
 
-    <button class="btn-primario" onclick = "setTelaDoisCriaQuiz()">Prosseguir para criar perguntas</button>
+    <button class="btn-pq   rimario" onclick = "setTelaDoisCriaQuiz()">Prosseguir para criar perguntas</button>
     `
 }
 
-//setTelaUmCriaQuiz();
+setTelaUmCriaQuiz();
 
 
 //tela 3.2

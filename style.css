@@ -190,16 +190,17 @@ button:hover{
     /*outline: 1.5px solid rgb(236, 54, 45,0.5);*/
 }
 
-/*
+
 @media(min-width:600px){
     body{
         width:600px;
         display:flex;
         justify-content: center;
+        margin:auto auto;
     }
 
     .all-content{
         display:flex;
         justify-content: center;
     }
-}*/
+}
