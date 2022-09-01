@@ -210,7 +210,7 @@ h1 {
 
 /*Lacerda*/
 /*responsividade*/
-@media (max-width: 1100px){
+@media (max-width: 600px){
     .conteudo-pagina{
         width: 375px;
     }
@@ -407,7 +407,7 @@ h1 {
     margin-bottom:10px;
 }
 
-.quizz-pronto
+
 
 /* .quizz-pronto .img-title p{
     position: absolute;
@@ -422,13 +422,19 @@ h1 {
  */
 
 /*responsive da tela 3*/
-@media (min-width:1100px){
+@media (min-width:600px){
+
 
     .criacao-quiz-center{
         display:flex;
         justify-content: center;
-        /*width:600px;*/
+        /* width:600px; */
     }
+    
+    /* body{
+        background: black;
+    }
+ */
     .cria-quiz{
         width:600px;
     }
@@ -447,7 +453,7 @@ h1 {
         padding-bottom: 7%;
     }
 
-    /*mudar p.tittle quando muda pra versão web*/ 
-    /*margin-top:70px; magin-bottom:46px;*/
-
+    .cria-quiz p:first-child{
+        margin: 70px 0px 46px 0px;
+    }
 }

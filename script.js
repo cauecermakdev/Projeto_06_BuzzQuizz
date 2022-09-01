@@ -22,7 +22,7 @@ function setTelaUmCriaQuiz() {
     `
 }
 
-//setTelaUmCriaQuiz();//essa funcao chama o Layout 3
+setTelaUmCriaQuiz();//essa funcao chama o Layout 3
 
 
 //tela 3.2
@@ -113,10 +113,22 @@ function setTelaTresCriaQuiz() {
     </div>
 
 
-    <button class="btn-primario" onclick="">Finalizar Quizz</button>
+    <button class="btn-primario" onclick="setTelaQuatroCriaQuiz()">Finalizar Quizz</button>
 
     `
 }
 
+//tela 3.3
+function setTelaQuatroCriaQuiz() {
+    document.querySelector(".cria-quiz").innerHTML =`
+    <!--tela 3.4 - criado com sucesso -->
+    <p class="title">Crie suas perguntas</p>
+    <div class="quizz-pronto">
+        <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">O quão Potterhead é você?</a></div>
+        <button class="btn-primario" onclick="setTelaTresCriaQuiz()">Acessar Quizz</button>
+        <a class ="home" href="#home">Voltar para home</a>
+    </div>
+    `
+}
 
 //FIM DO SCRIPT CRIA QUIZZ********************Pergunta 1
