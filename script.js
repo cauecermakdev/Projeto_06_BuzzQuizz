@@ -4,6 +4,65 @@
 
 
 //coloca Cria Quiz, tela 1, "começar pelo começo" no HTML
+//tela1
+iniciaTela();
+function iniciaTela() {
+    const promessa = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
+
+    promessa.then(comecaQuizz);
+}
+
+function comecaQuizz(resposta) {
+    console.log(resposta);
+    const url = resposta.data[0].image;
+
+
+    const printaTela = document.querySelector("body");
+    printaTela.innerHTML +=
+        `<div class="tela1 display-flex-center">
+            <div class="container display-flex-center">
+                <div class="conteudo-pagina display-flex-center">
+
+                    <div class="seus-quizzes-vazio display-flex-center">
+                        <h1>Você não criou nenhum quizz ainda :(</h1>
+                        <div class="botao display-flex-center">Criar Quizz</div>
+
+                    </div>
+                    <div class="seus-quizzes-conteudo display-none">
+                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png"></div>
+                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
+                            você?
+                            O quão Potterhead é você? </a></div>
+                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
+                            você?</a></div>
+                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
+                            você?</a></div>
+                    </div>
+
+                    <div class="todos-os-quizzes display-flex-center">
+                        <div class="subtitulo">Todos os Quizzes</div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>`
+    const puxaQuizz = document.querySelector(".todos-os-quizzes");
+    for (let i = 0; i < resposta.data.length; i++) {
+        puxaQuizz.innerHTML += `<div class="quizz" onclick=""><img src="${resposta.data[i].image}">
+                                <a class="titulo-quizz">${resposta.data[i].title}</a></div>`
+    }
+
+
+}
+
+/* function imprime(resposta) {
+    console.log(resposta.data);
+
+
+    teste.innerHTML = `<img src ="${url}">`;
+} */
+
 //tela 3.1
 function setTelaUmCriaQuiz() {
     const seletor = document.querySelector(".cria-quiz");
@@ -85,7 +144,7 @@ function setTelaDoisCriaQuiz() {
 //tela 3.3
 function setTelaTresCriaQuiz() {
     document.querySelector(".cria-quiz").innerHTML =
-    `
+        `
     <p class="title">Comece pelo começo</p>
 
     <div class="card-inputs-quiz">
@@ -120,3 +179,5 @@ function setTelaTresCriaQuiz() {
 
 
 //FIM DO SCRIPT CRIA QUIZZ********************Pergunta 1
+
+
