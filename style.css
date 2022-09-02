@@ -81,12 +81,18 @@ button:hover{
 }
 
 
-/*CSS tela 1*********************************/
+/*CSS layout 1*********************************/
+
+.container{
+    margin-top:69px;
+    padding-top:77px;
+}
 
 .conteudo-pagina {
     width: 1065px;
     flex-direction: column;
     position: relative;
+    
 }
 
 .cabecalho-tela1 {
@@ -94,8 +100,8 @@ button:hover{
     height: 69px;
     width: 100%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
 
+}
 
 a {
     font-family: 'Roboto', sans-serif;
@@ -114,7 +120,7 @@ a {
     width: 100%;
     border-radius: 5px;
     border: 1px dashed #D5D5D5;
-    margin-top: 87px;
+    
     flex-direction: column;
     margin-bottom: 77px;
 }
@@ -162,6 +168,7 @@ h1 {
     text-align: center;
     z-index: 3;
 }
+
 .seus-quizzes-conteudo {
     padding-top: 39px;
     height: 100%;
@@ -179,6 +186,11 @@ h1 {
     padding-right: 15px;
     margin-bottom: 12px;
 }
+.quizz img{
+    width: 340px;
+    height: 181px;
+    border-radius: 5px;
+}
 
 
 .titulo-quizz {
@@ -194,27 +206,120 @@ h1 {
     bottom: 15px;
 }
 
-.todos-os-quizes {
+.todos-os-quizzes {
     padding-top: 35px;
     height: 100%;
     width: 100%;
     flex-wrap: wrap;
     justify-content: left;
-    
+
     position: relative;
+    
+    
 }
-/*CSS tela 1*********************************/
 
-/*CSS tela 2*********************************/
+/*CSS Layout 2*********************************/
+.capa-quizz {
+    width: 100%;
+    height: 227px;
+    /* background-image: url("imagem/Potterhead.png"); */
+}
+.capa-preta{
+    background-color: black;
+    opacity: 0.6;
+    position: absolute;
+    width: 100%;
+    height: 227px;
+    top: 69px;
+}
 
+
+.capa-quizz img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chamada-quizz {
+    font-family: 'Roboto', sans-serif;
+    font-size: 39px;
+    font-weight: 400;
+    line-height: 46px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.pergunta {
+    height: 676px;
+    width: 759px;
+    background-color: #FFFFFF;
+    margin-top: 42px;
+    margin-left: 340px;
+    padding-top: 27.91px;
+    padding-left: 36.43px;
+}
+
+.questionamento {
+    height: 137.99081420898438px;
+    width: 688.1599731445312px;
+    left: 376.43212890625px;
+    top: 365.9082946777344px;
+    margin-bottom: 20.16px;
+    background-color: #434CA0;
+
+}
+
+.questionamento a {
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: center;
+
+}
+
+.imagens {
+    width: 688.1599731445312px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.resposta {
+    margin-bottom: 34px;
+}
+
+.alternativa {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    margin-top: 7.75px;
+
+}
+.opacidade{
+    opacity: 0.6;
+}
+.certa{
+    color: #009C22;
+}
+.errada{
+    color: #FF4B4B;
+}
+/*FIM CSS layout 2*********************************/
 
 /*Lacerda*/
 /*responsividade*/
-@media (max-width: 600px){
-    .conteudo-pagina{
+@media (max-width: 1100px) {
+    .conteudo-pagina {
         width: 375px;
     }
-    
+
 }
 
 

@@ -25,47 +25,41 @@
         </div>
     </nav>
 
-    <div class="tela1 display-none">
-        <div class="container display-flex-center">
-            <div class="conteudo-pagina display-flex-center">
-
-                <div class="seus-quizzes-vazio display-flex-center">
-                    <h1>Você não criou nenhum quizz ainda :(</h1>
-                    <div class="botao display-flex-center">Criar Quizz</div>
-                </div>
-
-                <div class="seus-quizzes-conteudo display-none">
-                    <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png"></div>
-                    <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?
-                            O quão Potterhead é você? </a></div>
-                    <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
-                    <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
-                </div>
-                <div class="todos-os-quizes display-flex-center">
-                    <div class="subtitulo">Todos os Quizzes</div>
-
-                    <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">Acerte os personagens
-                            corretos dos Simpsons e prove seu amor!</a></div>
-                    <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">Acerte os personagens
-                            corretos dos Simpsons e prove seu amor!</a></div>
-                    <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">Acerte os personagens
-                            corretos dos Simpsons e prove seu amor!</a></div>
-                    <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">Acerte os personagens
-                            corretos dos Simpsons e prove seu amor!</a></div>
-                    <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">Acerte os personagens
-                            corretos dos Simpsons e prove seu amor!</a></div>
-                    <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">Acerte os personagens
-                            corretos dos Simpsons e prove seu amor!</a></div>
-                </div>
-
-            </div>
-        </div>
+    <!--Layout 1 --->
+    <div class="tela1 ">
     </div>
 
-    <!--Layout CRIAQUIZZ - Tela 1,2, 3 e 4 feita- Layout para criar o Quizz-->
+    <!--Layout 2 | tem que colocar no javascript--->
+    <div class="tela2 display-none">
+                <div class="capa-quizz"><img src="./img/Potterhead.png">
+                        <!-- <a class="chamada-quizz">O quão Potterhead é você?</a> -->
+                </div>
+                <div class="capa-preta"></div>
+                <div class="pergunta ">
+                        <div class="questionamento display-flex-center"><a>Em qual animal Olho-Tonto Moody transfigurou
+                                        Malfoy?</a></div>
+                        <div class="imagens ">
+                                <div class="resposta" onclick="selecionaResposta(this)"><img src="./img/gato.png">
+                                        <div class="alternativa certa">Gatíneo</div>
+                                </div>
+                                <div class="resposta opacidade" onclick="selecionaResposta(this)"><img
+                                                src="./img/gato.png">
+                                        <div class="alternativa errada">Gatíneo</div>
+                                </div>
+                                <div class="resposta opacidade" onclick="selecionaResposta(this)"><img
+                                                src="./img/gato.png">
+                                        <div class="alternativa errada">Gatíneo</div>
+                                </div>
+                                <div class="resposta opacidade" onclick="selecionaResposta(this)"><img
+                                                src="./img/gato.png">
+                                        <div class="alternativa errada">Gatíneo</div>
+                                </div>
+                        </div>
+                </div>
+
+    </div>
+
+    <!--Layout 3 -  CRIAQUIZZ - Tela 1,2, 3 e 4 feita- Layout para criar o Quizz-->
     <div class="criacao-quiz-center">
         <div class="cria-quiz">
         </div>
