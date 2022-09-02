@@ -13,10 +13,9 @@ function iniciaTela() {
     promessa.then(comecaQuizz);
     promessa.catch(deuruim); 
 }
-iniciaTela(); 
+//iniciaTela(); 
 
 function comecaQuizz(resposta) {
-    console.log("aqui");
     console.log(resposta);
     const url = resposta.data[0].image;
 
@@ -58,9 +57,6 @@ function comecaQuizz(resposta) {
 
 
 }
-
-
-
 
 
 //*****************************************************
@@ -110,7 +106,7 @@ function setTelaUmCriaQuiz() {
     `
 }
 
-//setTelaUmCriaQuiz();//essa funcao chama o Layout 3
+setTelaUmCriaQuiz();//essa funcao chama o Layout 3
 
 
 function colocaPergunta(){
