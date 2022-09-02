@@ -465,8 +465,6 @@ h1 {
     font-family: inherit;
     font-size: 19px;
     /*outline: 1.5px solid rgb(236, 54, 45,0.5);*/
-<<<<<<< HEAD
-=======
 }
 
 /**********TELA 3.4 - QUIZZ criado com sucesso ***************/
@@ -566,5 +564,4 @@ h1 {
     .cria-quiz p:first-child{
         margin: 70px 0px 46px 0px;
     }
->>>>>>> 3942a2fa9279d3f7be006c3ffb7ab2ff5223e99b
 }
