@@ -112,7 +112,7 @@ function openQuizz(response){
     }
     
 }
-openScreen2();
+//openScreen2();
 
 //muda a aparência de acordo com a resposta
 function selectAnswer(answerPicked){
@@ -191,7 +191,7 @@ function setTelaUmCriaQuiz() {
     automatiza_testes_tela1();
 }
 
-//setTelaUmCriaQuiz();//essa funcao chama o Layout 3
+setTelaUmCriaQuiz();//essa funcao chama o Layout 3
 
 
 //mostra pergunta quando clica no ícone "expand"
@@ -314,7 +314,6 @@ function organizaValoresInseridosTelaDois() {
     
     for (let i = 0; i < n_perguntas; i++){
         array_respostas = [];
-       //objetoPergunta.answers = [];
 
         let tituloDaPergunta = "";
         let corHexadecimalPergunta = "";
@@ -325,7 +324,7 @@ function organizaValoresInseridosTelaDois() {
             answers: array_respostas
         }
 
-        //pegar todos elementos do form
+        //pega todos elementos do form e coloca no meu objeto do quiz criado
         tituloDaPergunta = document.querySelector(`#tituloDaPergunta${i}`).value;
         
         corHexadecimalPergunta = document.querySelector(`#corHexadecimalPergunta${i}`).value;
@@ -474,12 +473,12 @@ function setTelaQuatroCriaQuiz() {
 
 //SERVIDOR LAYOUT 3
 function deubom(requisicao) {
-    alert("deubom!");
+    alert("deubom a requisicao de POST do Cria Quizz!");
     console.log(requisicao);
 }
 
 function post_api_criar_quizz() {
-    const objeto = {
+    const objeto_quiz_criado = {
         title: titulo,
         image: url_img_quizz,
         questions: array_perguntas,
@@ -499,9 +498,9 @@ function post_api_criar_quizz() {
         ]
     };
 
-    console.log(objeto);
+    console.log(objeto_quiz_criado);
 
-    const requisicao = axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", objeto);
+    const requisicao = axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", objeto_quiz_criado);
     requisicao.then(deubom);
     requisicao.catch(deuruim);
 
@@ -523,13 +522,12 @@ automatiza_testes_tela1();
 
 function automatiza_testes_tela2(){
     for(let i = 0; i < n_perguntas; i++){
-        document.querySelector(`#tituloDaPergunta${i}`).value = `Titulo da pergunta${i}`;
-        document.querySelector(`#corHexadecimalPergunta${i}`).value = "#24242424";
+        document.querySelector(`#tituloDaPergunta${i}`).value = `Titulo da pergunta ${i}`;
+        document.querySelector(`#corHexadecimalPergunta${i}`).value = "#242424";
 
         for(let j=0; j< MAX_RESPOSTA; j++){
-            document.querySelector(`#pergunta${i} #textoDaResposta${j}`).value = `Resposta${j}` ;
+            document.querySelector(`#pergunta${i} #textoDaResposta${j}`).value = `Respostaa ${j}` ;
             document.querySelector(`#pergunta${i} #urlImgResposta${j}`).value= `https://teste${j}.com.br`;
-
         }
     }
 }
