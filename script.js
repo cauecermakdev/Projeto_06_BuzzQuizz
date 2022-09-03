@@ -61,8 +61,13 @@ function comecaQuizz(resposta) {
 // SCRIPT LAYOUT 2 ************************************
 
 //pega o quizz do servidor e chama a openQuizz
-function openScreen2() {
-    let quizzNumber = 34;
+function openScreen2(quizzNumber) {
+    //let quizzNumber = 34;
+    //let quizzNumber = id_quizz_criado;
+
+    //se a tela 3.4 tiver com o elemento ela tira
+    document.querySelector(".cria-quiz").innerHTML = "";
+
     const getSpecificQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzNumber}`);
     getSpecificQuizz.then(openQuizz);
 }
@@ -112,7 +117,7 @@ function openQuizz(response) {
     }
 
 }
-//openScreen2();
+//openScreen2(34);
 
 //muda a aparência de acordo com a resposta
 function selectAnswer(answerPicked) {
@@ -140,11 +145,13 @@ function selectAnswer(answerPicked) {
 
 //*****************************************************
 // SCRIPT LAYOUT 3 ************************************
-const MAX_RESPOSTA = 4;
+const MAX_RESPOSTA = 4;//numero maximo de respostas dentro de uma pergunta
+const nome_quizLocalStorage = "quizzes";//nome do meu local storage onde vou armazenas os IDS dos quizzes
+let id_quizz_criado;
 
 //variaveis do quiz que vai ser criado_______________________
 let objeto_quiz_criado = {};
-
+let array_ids_meus_quizz = [];
 //Variáveis obtidas na tela 3.1
 let titulo = "";
 let url_img_quizz = "";
@@ -396,6 +403,7 @@ function organizaValoresInseridosTelaDois() {
             console.log(objetoResposta) */;
 
         }
+    
 
 
         /*    console.log("objpergunta");
@@ -508,34 +516,72 @@ function organizaValoresInseridosTelaTres(){
         array_nivel.push(objeto_nivel);
    }
 
-
 }
 
 
 //setTelaTresCriaQuiz();//essa funcao chama o Layout 
 
 //tela 3.4
-function setTelaQuatroCriaQuiz() {
-    scroll_to("body");
-    organizaValoresInseridosTelaTres();
-    post_api_criar_quizz();
+function quizCriadoComSucesso(){
 
     document.querySelector(".cria-quiz").innerHTML = `
     <!--tela 3.4 - criado com sucesso -->
     <p class="title">Seu quizz está pronto!</p>
     <div class="quizz-pronto">
         <div class="quizz"><img src="${objeto_quiz_criado.image}"><a class="titulo-quizz">${objeto_quiz_criado.title}</a></div>
-        <button class="btn-primario" onclick="setTelaTresCriaQuiz()">Acessar Quizz</button>
+        <button class="btn-primario" onclick="openScreen2(${id_quizz_criado})">Acessar Quizz</button>
         <a class ="home" href="#home">Voltar para home</a>
     </div>
     `
 }
 
 
+function setTelaQuatroCriaQuiz() {
+    scroll_to("body");
+
+    organizaValoresInseridosTelaTres();
+    post_api_criar_quizz();
+    
+/*     document.querySelector(".cria-quiz").innerHTML = `
+    <!--tela 3.4 - criado com sucesso -->
+    <p class="title">Seu quizz está pronto!</p>
+    <div class="quizz-pronto">
+        <div class="quizz"><img src="${objeto_quiz_criado.image}"><a class="titulo-quizz">${objeto_quiz_criado.title}</a></div>
+        <button class="btn-primario" onclick="openScreen2(${id_quizz_criado})">Acessar Quizz</button>
+        <a class ="home" href="#home">Voltar para home</a>
+    </div>
+    ` */
+}
+
+
 //SERVIDOR LAYOUT 3
-function deubom(requisicao) {
-    alert("deubom a requisicao de POST do Cria Quizz!");
+function sucesso_requisicao_post_servidor(requisicao) {
+    //alert("deubom a requisicao de POST do Cria Quizz!");
     console.log(requisicao);
+    console.log(requisicao.data.id);
+
+    id_quizz_criado = requisicao.data.id;
+    
+    //renova a cada reload
+    array_ids_meus_quizz.push(requisicao.data.id);
+
+    if(localStorage.getItem(nome_quizLocalStorage)== undefined){
+        localStorage.setItem(nome_quizLocalStorage,requisicao.data.id);
+    }else{
+        //console.log(localStorage.getItem("listaIDsQuizzess"));
+        //pega o que tá armazenado no local storage
+        let string = localStorage.getItem(nome_quizLocalStorage);
+        //adiciona o novo id
+        string += `,${requisicao.data.id}`;
+        //e coloca no local storage
+        localStorage.setItem(nome_quizLocalStorage,string);
+        
+        console.log("Lista com os IDs dos quizzees inseridos por mim")
+        console.log(localStorage.getItem(nome_quizLocalStorage));
+    }
+
+    quizCriadoComSucesso();
+
 }
 
 function post_api_criar_quizz() {
@@ -549,7 +595,7 @@ function post_api_criar_quizz() {
     console.log(objeto_quiz_criado);
 
     const requisicao = axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", objeto_quiz_criado);
-    requisicao.then(deubom);
+    requisicao.then(sucesso_requisicao_post_servidor);
     requisicao.catch(deuruim);
 
 }
