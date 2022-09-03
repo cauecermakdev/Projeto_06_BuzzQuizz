@@ -58,6 +58,77 @@ function comecaQuizz(resposta) {
 
 }
 
+//*****************************************************
+// SCRIPT LAYOUT 2 ************************************
+
+function openScreen2(){
+    let quizzNumber = 33;
+    const getSpecificQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzNumber}`);
+    getSpecificQuizz.then(openQuizz);
+}
+
+function openQuizz(response){
+    console.log(response.data);
+    console.log(response.data.questions);
+    const showQuizz= document.querySelector(".tela2");
+    showQuizz.innerHTML += `<div class="capa-quizz">
+    <img src="${response.data.image}">
+    </div>
+    <a class="chamada-quizz">
+    <p>${response.data.title}</p>
+    </a>
+    <div class="capa-preta">
+            
+    </div>
+    <div class="perguntasQuizz"></div>
+</div>`
+
+    let questionsQuizzDiv = document.querySelector(".perguntasQuizz");
+    for(let i = 0; i < response.data.questions.length; i++){
+        questionsQuizzDiv.innerHTML += `<div class="pergunta">
+    <div class="questionamento display-flex-center" data-identifier="question"><a>${response.data.questions[i].title}</a></div>
+    <div class="imagens"></div></div>`
+        let arrayDivAnswers = document.querySelectorAll(`.imagens`);
+        
+        for(let j = 0; j < response.data.questions[i].answers.length; j++){
+            arrayDivAnswers[i].innerHTML += `<div class="resposta" data-identifier="answer" onclick="selecionaResposta(this)">
+            <img src="${response.data.questions[i].answers[j].image}">
+            <div class="alternativa">${response.data.questions[i].answers[j].text}</div>
+        </div>`
+        
+        let arrayAnswers = document.querySelectorAll(".resposta");
+        console.log(arrayAnswers)
+            if(response.data.questions[i].answers[j].isCorrectAnswer === true){
+                arrayAnswers[j+i*4].classList.add('correctAnswer');
+            } else{
+                arrayAnswers[j+i*4].classList.add('wrongAnswer');
+            }
+        }
+
+        let divQuestion = questionsQuizzDiv.children[i];
+        let divColor = divQuestion.children[0]
+        divColor.style.backgroundColor = `${response.data.questions[i].color}`
+    }
+    
+}
+openScreen2();
+
+{/* 
+            
+            <div class="resposta" onclick="selecionaResposta(this)"><img
+                            src="./img/gato.png">
+                    <div class="alternativa">Gatíneo</div>
+            </div>
+            <div class="resposta" onclick="selecionaResposta(this)"><img
+                            src="./img/gato.png">
+                    <div class="alternativa">Gatíneo</div>
+            </div>
+            <div class="resposta" onclick="selecionaResposta(this)"><img
+                            src="./img/gato.png">
+                    <div class="alternativa">Gatíneo</div>
+            </div>
+     */}
+
 
 //*****************************************************
 // SCRIPT LAYOUT 3 ************************************
@@ -106,7 +177,7 @@ function setTelaUmCriaQuiz() {
     `
 }
 
-setTelaUmCriaQuiz();//essa funcao chama o Layout 3
+//setTelaUmCriaQuiz();//essa funcao chama o Layout 3
 
 
 function colocaPergunta(){
