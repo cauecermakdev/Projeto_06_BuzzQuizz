@@ -143,6 +143,7 @@ function selectAnswer(answerPicked) {
 const MAX_RESPOSTA = 4;
 
 //variaveis do quiz que vai ser criado_______________________
+let objeto_quiz_criado = {};
 
 //Variáveis obtidas na tela 3.1
 let titulo = "";
@@ -153,6 +154,7 @@ let n_niveis = 0;
 //Variáveis obtidas na tela 3.2
 let array_respostas = [];
 let array_perguntas = [];
+let array_nivel = [];
 
 
 //____________________________________________________________
@@ -239,7 +241,7 @@ function colocaPergunta(i) {
         <div class="card-edit ${select}" onclick = "mostrarPergunta(this)">
             <p class="title">Pergunta ${i + 1}</p>
             <ion-icon name="create-outline" data-identifier="expand"></ion-icon>
-        </div>
+            </div>
 
         <div class = "corpoDaPergunta ${mostrar_pergunta}">
             <div class="group-inputs">
@@ -247,7 +249,6 @@ function colocaPergunta(i) {
                     <input placeholder="Cor de fundo da pergunta" type="text" maxlength="7" minlength="7" id = "corHexadecimalPergunta${i}" required/>
             </div>
 
-            <!--<div class="pergunta-content">-->
             <!--talvez faça sentido colocar pra esconder dps-->
             <div class="group-inputs">
                 <p class="title">Resposta correta</p>
@@ -405,7 +406,7 @@ function organizaValoresInseridosTelaDois() {
     }
     //console.log("array com perguntas"); 
     console.log(array_perguntas);
-    post_api_criar_quizz();
+    
 }
 
 //tela 3.3
@@ -471,20 +472,59 @@ function setTelaTresCriaQuiz() {
     </form>
 
     `
+    automatiza_testes_tela3();
 }
 
-//setTelaTresCriaQuiz();//essa funcao chama o Layout 3
+//organizando dados dos Niveis
+function organizaValoresInseridosTelaTres(){
+    //formato do meu objeto nivel
 
+    /*{
+        title: "Título do nível 2",
+        image: "https://http.cat/412.jpg",
+        text: "Descrição do nível 2",
+        minValue: 50
+    } */
+
+
+    const array_titulos_nivel = document.querySelectorAll("#titulo-nivel");
+    const array_acerto_min_nivel = document.querySelectorAll("#acerto-min-nivel");
+    const array_descricao_nivel = document.querySelectorAll("#descricao-nivel");
+    const array_url_img_nivel = document.querySelectorAll("#url-img-nivel");
+
+   for(let i = 0; i < n_niveis; i++){
+        let objeto_nivel = {
+            title: "",
+            image: "",
+            text: "",
+            minValue: 0
+        } 
+
+        objeto_nivel.title = array_titulos_nivel[i].value;
+        objeto_nivel.minValue = array_acerto_min_nivel[i].value;
+        objeto_nivel.image = array_url_img_nivel[i].value;
+        objeto_nivel.text = array_descricao_nivel[i].value;      
+
+        array_nivel.push(objeto_nivel);
+   }
+
+
+}
+
+
+//setTelaTresCriaQuiz();//essa funcao chama o Layout 
 
 //tela 3.4
 function setTelaQuatroCriaQuiz() {
     scroll_to("body");
+    organizaValoresInseridosTelaTres();
+    post_api_criar_quizz();
 
     document.querySelector(".cria-quiz").innerHTML = `
     <!--tela 3.4 - criado com sucesso -->
-    <p class="title">Crie suas perguntas</p>
+    <p class="title">Seu quizz está pronto!</p>
     <div class="quizz-pronto">
-        <div class="quizz"><img src="./img/simpsons.png"><a class="titulo-quizz">O quão Potterhead é você?</a></div>
+        <div class="quizz"><img src="${objeto_quiz_criado.image}"><a class="titulo-quizz">${objeto_quiz_criado.title}</a></div>
         <button class="btn-primario" onclick="setTelaTresCriaQuiz()">Acessar Quizz</button>
         <a class ="home" href="#home">Voltar para home</a>
     </div>
@@ -499,24 +539,11 @@ function deubom(requisicao) {
 }
 
 function post_api_criar_quizz() {
-    const objeto_quiz_criado = {
+    objeto_quiz_criado = {
         title: titulo,
         image: url_img_quizz,
         questions: array_perguntas,
-        levels: [
-            {
-                title: "Título do nível 1",
-                image: "https://http.cat/411.jpg",
-                text: "Descrição do nível 1",
-                minValue: 0
-            },
-            {
-                title: "Título do nível 2",
-                image: "https://http.cat/412.jpg",
-                text: "Descrição do nível 2",
-                minValue: 50
-            }
-        ]
+        levels:array_nivel
     };
 
     console.log(objeto_quiz_criado);
@@ -537,22 +564,51 @@ function post_api_criar_quizz() {
 function automatiza_testes_tela1() {
 
     document.querySelector("#titulo-quizz").value = "Titulo Pergunta muito louca";
-    document.querySelector("#url-img-quizz").value = "https://minhaurl.com.br";
+    document.querySelector("#url-img-quizz").value = "https://c.tenor.com/JVsuDbgjIncAAAAM/crazy-insane.gif";
     document.querySelector("#n-perguntas-quizz").value = "3";
     document.querySelector("#n-niveis-quizz").value = "2";
 
 }
-automatiza_testes_tela1();
+//automatiza_testes_tela1();
 
 
 function automatiza_testes_tela2() {
     for (let i = 0; i < n_perguntas; i++) {
         document.querySelector(`#tituloDaPergunta${i}`).value = `Titulo da pergunta ${i}`;
-        document.querySelector(`#corHexadecimalPergunta${i}`).value = "#242424";
+        document.querySelector(`#corHexadecimalPergunta${i}`).value = "#00b4d8";
 
         for (let j = 0; j < MAX_RESPOSTA; j++) {
             document.querySelector(`#pergunta${i} #textoDaResposta${j}`).value = `Respostaa ${j}`;
-            document.querySelector(`#pergunta${i} #urlImgResposta${j}`).value = `https://teste${j}.com.br`;
+            document.querySelector(`#pergunta${i} #urlImgResposta${j}`).value = `https://http.cat/${j}`;
         }
     }
 }
+
+function automatiza_testes_tela3(){
+     const array_titulos_nivel = document.querySelectorAll("#titulo-nivel");
+     const array_acerto_min_nivel = document.querySelectorAll("#acerto-min-nivel");
+     const array_descricao_nivel = document.querySelectorAll("#descricao-nivel");
+     const array_url_img_nivel = document.querySelectorAll("#url-img-nivel");
+
+    for(let i = 0; i < n_niveis; i++){
+        array_titulos_nivel[i].value = `Titulo Nivel ${i}`;
+        array_acerto_min_nivel[i].value = "10";
+        array_url_img_nivel[i].value = `https://http.cat/${i}`;
+        array_descricao_nivel[i].value = "A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real. Wikipédia";       
+    }
+}
+
+
+/* 
+function joga50NoServidor(){
+    for(let i = 0 ; i < 30; i++ ){
+        setTelaUmCriaQuiz();
+        automatiza_testes_tela1();
+        setTimeout(100,setTelaDoisCriaQuiz);
+        setTimeout(100,setTelaTresCriaQuiz);
+        setTimeout(100,setTelaQuatroCriaQuiz);
+    }
+    alert("foi");
+}
+
+joga50NoServidor(); */
