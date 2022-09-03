@@ -1,8 +1,7 @@
-
+ 
 //*****************************************************
 // SCRIPT LAYOUT 1 ************************************
 function deuruim(error) {
-    console.log("entra");
     console.log(error);
 }
 
@@ -61,7 +60,7 @@ function comecaQuizz(resposta) {
 
 //*****************************************************
 // SCRIPT LAYOUT 3 ************************************
-
+const MAX_RESPOSTA = 4;
 
 //variaveis do quiz que vai ser criado_______________________
 
@@ -73,15 +72,11 @@ let n_niveis = 0;
 
 //Variáveis obtidas na tela 3.2
 let array_respostas = [];
-let arrayPerguntas = [];
+let array_perguntas = [];
 
 
 //____________________________________________________________
-
-
-
-const array_answers = [];
-
+//const array_answers = [];
 
 //General functions**************************
 
@@ -113,6 +108,7 @@ function setTelaUmCriaQuiz() {
     <button type="submit" class="btn-primario">Prosseguir para criar perguntas</button>
     </form>
     `
+    automatiza_testes_tela1();
 }
 
 setTelaUmCriaQuiz();//essa funcao chama o Layout 3
@@ -167,24 +163,24 @@ function colocaPergunta(i) {
             <!--talvez faça sentido colocar pra esconder dps-->
             <div class="group-inputs">
                 <p class="title">Resposta correta</p>
-                <input placeholder="Resposta correta" type="text" id = "textoDaRespostaCorreta${i}" required/>
-                <input placeholder="URL da imagem" type="url" id = "urlImgRespostaCorreta${i}">
+                <input placeholder="Resposta correta" type="text" id = "textoDaResposta0" required/>
+                <input placeholder="URL da imagem" type="url" id = "urlImgResposta0">
             </div>
 
             <div class="group-inputs">
                 <p class="title">Respostas incorretas</p>
-                <input placeholder="Resposta incorreta 1" type="text" id = "textoDaRespostaIncorretaUm${i}" required/>
-                <input placeholder="URL da imagem 1" type="url" id = "urlImgRespostaIncorretaUm${i}">
+                <input placeholder="Resposta incorreta 1" type="text" id = "textoDaResposta1" required/>
+                <input placeholder="URL da imagem 1" type="url" id = "urlImgResposta1">
             </div>
                 
             <div class="group-inputs">
-                <input placeholder="Resposta incorreta 2" type="text" id = "textoDaRespostaIncorretaDois${i}"> 
-                <input placeholder="URL da imagem 2" type="url" id = "urlImgRespostaIncorretaDois${i}">
+                <input placeholder="Resposta incorreta 2" type="text" id = "textoDaResposta2"> 
+                <input placeholder="URL da imagem 2" type="url" id = "urlImgResposta2">
             </div>
 
             <div class="group-inputs">
-                <input placeholder="Resposta incorreta 3" type="text" id = "textoDaRespostaIncorretaTres${i}">
-                <input placeholder="URL da imagem 3" type="url" id = "urlImgRespostaIncorretaTres${i}">
+                <input placeholder="Resposta incorreta 3" type="text" id = "textoDaResposta3">
+                <input placeholder="URL da imagem 3" type="url" id = "urlImgResposta3">
             </div>
 
         </div>
@@ -212,9 +208,7 @@ function setTelaDoisCriaQuiz() {
         <form onSubmit = "setTelaTresCriaQuiz();">
     `;
 
-    //for (let i = 0; i < n_perguntas; i++) {
-    for (let i = 0; i < 1; i++) {
-
+    for (let i = 0; i < n_perguntas; i++) {
         //troca corpo
         stringTela2 += `
             ${colocaPergunta(i)}
@@ -228,46 +222,36 @@ function setTelaDoisCriaQuiz() {
 
     document.querySelector(".cria-quiz").innerHTML = stringTela2;
 
+    //preenche inputs tela 2
+    automatiza_testes_tela2();
+
 }
+
 
 
 //pega os valores da tela dois e organiza no meu objeto arrayPerguntas
 function organizaValoresInseridosTelaDois() {
-    alert("dentro organizaValores");
-    //arrayPerguntas = [];
-    //array_respostas = [];
-
-    let textoDaResposta = "";
-    let urlImgResposta = "";
-    let ehrespostaCorreta = false; //false or true
-    let tituloDaPergunta = "";
-    let corHexadecimalPergunta = "";
     
+    for (let i = 0; i < n_perguntas; i++){
+        array_respostas = [];
+       //objetoPergunta.answers = [];
 
-    let objetoResposta = {
-/*         text: textoDaResposta,
-        image: urlImgResposta,
-        isCorrectAnswer: ehRespostaCorreta */
-    }
-    alert("dentro organizaValores, passa primeiro objeto");
+        let tituloDaPergunta = "";
+        let corHexadecimalPergunta = "";
+        
+        let objetoPergunta = {
+            title: "",
+            color: "",
+            answers: array_respostas
+        }
 
-    let objetoPergunta = {
-/*         title: tituloDaPergunta,
-        color: corHexadecimalPergunta,
-        answers: array_respostas */
-    }
-    alert("dentro organizaValores, passa objetos");
-
-
-    for (let i = 0; i < n_perguntas; i++) {
-        alert("dentro for i");
         //pegar todos elementos do form
         tituloDaPergunta = document.querySelector(`#tituloDaPergunta${i}`).value;
         
         corHexadecimalPergunta = document.querySelector(`#corHexadecimalPergunta${i}`).value;
 
         objetoPergunta.title = tituloDaPergunta;
-        objetoPergunta.corHexadecimalPergunta = corHexadecimalPergunta;
+        objetoPergunta.color = corHexadecimalPergunta;
 
         //nas respostas
 
@@ -284,22 +268,37 @@ function organizaValoresInseridosTelaDois() {
         //Montando meus objetos de resposta para cada pergunta, por isso um for
         //VER NOS REQUISISTOS
         //pra cada pergunta no maximo tem 3 respostas - 1 correta e duas incorretas
-        for (let j = 0; j < 1; j++) {
-            alert("dentro for j");
-            const valorTextoDaResposta = document.querySelector(`#pergunta${i} #textoDaRespostaCorreta${j}`).value;
+        for (let j = 0; j < MAX_RESPOSTA; j++) {
 
-            if (valorTextoDaResposta != null) {
+            let textoDaResposta = "";
+            let urlImgResposta = "";
+            let ehrespostaCorreta = false; //false or true
+            
+            let objetoResposta = {
+                text: "",
+                image: "",
+                isCorrectAnswer: false
+            }
+
+
+            //coloca no objeto reposta texto e imagem da resposta com indice j
+            const seletorTextoDaResposta = document.querySelector(`#pergunta${i} #textoDaResposta${j}`);
+                
+            if (seletorTextoDaResposta != null) {
+                const valorTextoDaResposta = seletorTextoDaResposta.value;
                 textoDaResposta = valorTextoDaResposta;
 
-                const valorUrlImgResposta = document.querySelector(`#pergunta${i} #urlImgRespostaCorreta${j}`).value;
-                if (valorUrlImgResposta != null) {
+                const seletorUrlImgResposta = document.querySelector(`#pergunta${i} #urlImgResposta${j}`);
+                 
+                if (seletorUrlImgResposta != null) {
+                    const valorUrlImgResposta = seletorUrlImgResposta.value;
                     urlImgResposta = valorUrlImgResposta;
                 } else {
                     urlImgResposta = "";
                 }
 
                 //seta isCorrectAnswer
-                if (i == 0) {
+                if (j == 0) {
                     ehRespostaCorreta = true;
                 } else {
                     ehRespostaCorreta = false;
@@ -310,24 +309,29 @@ function organizaValoresInseridosTelaDois() {
                 objetoResposta.image = urlImgResposta;
                 objetoResposta.isCorrectAnswer = ehRespostaCorreta;
 
-
                 objetoPergunta.answers.push(objetoResposta);
+                
             }
+            /* 
+            console.log("objResposta");
+            console.log(objetoResposta) */;
+
         }
+        
 
-
+     /*    console.log("objpergunta");
+        console.log(objetoPergunta); */
         //coloco no meu objeto pergunta no arrayPerguntas[i]
-        arrayPerguntas.push(objetoPergunta);
-
+        array_perguntas.push(objetoPergunta);
+        
     }
-
-    console.log(arrayPerguntas);
-
+    //console.log("array com perguntas"); 
+    console.log(array_perguntas);
+    post_api_criar_quizz();
 }
 
 //tela 3.3
 function setTelaTresCriaQuiz() {
-    alert("entra setTelaTres");
 
     organizaValoresInseridosTelaDois();
 
@@ -398,7 +402,7 @@ function post_api_criar_quizz() {
     const objeto = {
         title: titulo,
         image: url_img_quizz,
-        questions: arrayPerguntas,
+        questions: array_perguntas,
         levels: [
             {
                 title: "Título do nível 1",
@@ -414,11 +418,38 @@ function post_api_criar_quizz() {
             }
         ]
     };
+
+    console.log(objeto);
+
     const requisicao = axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", objeto);
     requisicao.then(deubom);
+    requisicao.catch(deuruim);
 
 }
 
-//  post_api_criar_quizz();
+//post_api_criar_quizz();
 //FIM DO SCRIPT CRIA QUIZZ********************Pergunta 1            
 
+function automatiza_testes_tela1(){
+
+    document.querySelector("#titulo-quizz").value = "Titulo Pergunta muito louca";
+    document.querySelector("#url-img-quizz").value  = "https://minhaurl.com.br";
+    document.querySelector("#n-perguntas-quizz").value = "3";
+    document.querySelector("#n-niveis-quizz").value = "2";
+
+}
+automatiza_testes_tela1();
+
+
+function automatiza_testes_tela2(){
+    for(let i = 0; i < n_perguntas; i++){
+        document.querySelector(`#tituloDaPergunta${i}`).value = `Titulo da pergunta${i}`;
+        document.querySelector(`#corHexadecimalPergunta${i}`).value = "#24242424";
+
+        for(let j=0; j< MAX_RESPOSTA; j++){
+            document.querySelector(`#pergunta${i} #textoDaResposta${j}`).value = `Resposta${j}` ;
+            document.querySelector(`#pergunta${i} #urlImgResposta${j}`).value= `https://teste${j}.com.br`;
+
+        }
+    }
+}
