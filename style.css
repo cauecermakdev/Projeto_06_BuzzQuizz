@@ -414,6 +414,11 @@ form{
     /*outline: 1.5px solid rgb(236, 54, 45,0.5);*/
 }
 
+.card-inputs-quiz.minimizado{
+    box-shadow: none;
+    padding:0px;
+    margin-bottom:0px;/*verificar*/
+}
 
 /*div que contém a opção de editar perguntas 2 e 3*/
 .card-edit{
@@ -440,7 +445,7 @@ form{
     padding-left: 0px;
 }
 
-.group-inputs .card-edit.select ion-icon{
+.card-edit.select ion-icon{
     display:none;
 }
 
@@ -540,7 +545,6 @@ form{
 /*responsive da tela 3*/
 @media (min-width:600px){
 
-
     .criacao-quiz-center{
         display:flex;
         justify-content: center;
@@ -568,8 +572,10 @@ form{
     .cria-quiz .quizz a{
         padding-bottom: 7%;
     }
-
+/* 
     .cria-quiz p:first-child{
         margin: 70px 0px 46px 0px;
-    }
+    } */
+
+
 }

@@ -150,7 +150,7 @@ function colocaPergunta(i) {
     }
 
     return `
-    <div class="card-inputs-quiz ${minimizado}" data-identifier="question-form" id ="pergunta${i}">
+    <div class="card-inputs-quiz ${minimizado}" data-identifier="question-form">
         
         <div class="card-edit ${select}" onclick = "mostrarPergunta(this)">
             <p class="title">Pergunta ${i + 1}</p>
@@ -205,66 +205,75 @@ function setTelaDoisCriaQuiz() {
     n_perguntas = parseInt(document.querySelector("#n-perguntas-quizz").value);
     n_niveis = parseInt(document.querySelector("#n-niveis-quizz").value);
 
-    let stringTela2 = "";
     //comeco da tela 2
-    stringTela2 = `
+    document.querySelector(".cria-quiz").innerHTML = `
         <p class="title">Crie suas perguntas</p>
-        <form onSubmit = "setTelaTresCriaQuiz();">
+        <form onSubmit = "setTelaTresCriaQuiz()">
     `;
 
-    //for (let i = 0; i < n_perguntas; i++) {
-    for (let i = 0; i < 1; i++) {
-
+    for (let i = 0; i < n_perguntas; i++) {
         //troca corpo
-        stringTela2 += `
+        document.querySelector(".cria-quiz").innerHTML += `
+
             ${colocaPergunta(i)}
+
+            <!--ARRUMAR PARA ABRIR PERGUNTA CASO CLIQUE NO ICONE
+            <div class="card-edit">
+                <p class="title">Pergunta 2</p>
+                <ion-icon name="create-outline" data-identifier="expand"></ion-icon>
+            </div>
+
+            <div class="card-edit">
+                <p class="title">Pergunta 3</p>
+                <ion-icon name="create-outline" data-identifier="expand"></ion-icon>
+            </div>-->
         `
     }
     //colocando final da pagina
-    stringTela2 += `
+    document.querySelector(".cria-quiz").innerHTML += `
             <button type="submit" class="btn-primario">Prosseguir para criar níves</button>
             </form>
         `
 
-    document.querySelector(".cria-quiz").innerHTML = stringTela2;
 
 }
 
 
 //pega os valores da tela dois e organiza no meu objeto arrayPerguntas
 function organizaValoresInseridosTelaDois() {
-    alert("dentro organizaValores");
     //arrayPerguntas = [];
     //array_respostas = [];
 
     let textoDaResposta = "";
     let urlImgResposta = "";
-    let ehrespostaCorreta = false; //false or true
+    let respostaCorreta = false; //false or true
     let tituloDaPergunta = "";
     let corHexadecimalPergunta = "";
-    
 
     let objetoResposta = {
-/*         text: textoDaResposta,
+        text: textoDaResposta,
         image: urlImgResposta,
-        isCorrectAnswer: ehRespostaCorreta */
+        isCorrectAnswer: ehRespostaCorreta
     }
-    alert("dentro organizaValores, passa primeiro objeto");
 
     let objetoPergunta = {
-/*         title: tituloDaPergunta,
+        title: tituloDaPergunta,
         color: corHexadecimalPergunta,
-        answers: array_respostas */
+        answers: array_respostas
     }
-    alert("dentro organizaValores, passa objetos");
+
+
+    textoDaResposta = document.querySelector("#titulo-quizz").value;
+    url_img_quizz = document.querySelector("#url-img-quizz").value;
+    n_perguntas = parseInt(document.querySelector("#n-perguntas-quizz").value);
+    n_niveis = parseInt(document.querySelector("#n-niveis-quizz").value);
+
 
 
     for (let i = 0; i < n_perguntas; i++) {
-        alert("dentro for i");
         //pegar todos elementos do form
-        tituloDaPergunta = document.querySelector(`#tituloDaPergunta${i}`).value;
-        
-        corHexadecimalPergunta = document.querySelector(`#corHexadecimalPergunta${i}`).value;
+        tituloDaPergunta = document.querySelector(`.tituloDaPergunta${i}`).value;
+        corHexadecimalPergunta = document.querySelector(`.corHexadecimalPergunta${i}`).value;
 
         objetoPergunta.title = tituloDaPergunta;
         objetoPergunta.corHexadecimalPergunta = corHexadecimalPergunta;
@@ -284,14 +293,12 @@ function organizaValoresInseridosTelaDois() {
         //Montando meus objetos de resposta para cada pergunta, por isso um for
         //VER NOS REQUISISTOS
         //pra cada pergunta no maximo tem 3 respostas - 1 correta e duas incorretas
-        for (let j = 0; j < 1; j++) {
-            alert("dentro for j");
-            const valorTextoDaResposta = document.querySelector(`#pergunta${i} #textoDaRespostaCorreta${j}`).value;
-
+        for (let j = 0; j < 3; j++) {
+            const valorTextoDaResposta = document.querySelector(`#pergunta${i} .textoDaRespostaCorreta${j}`).value;
             if (valorTextoDaResposta != null) {
                 textoDaResposta = valorTextoDaResposta;
 
-                const valorUrlImgResposta = document.querySelector(`#pergunta${i} #urlImgRespostaCorreta${j}`).value;
+                const valorUrlImgResposta = document.querySelector(`#pergunta${i} .urlImgRespostaCorreta${j}`).value;
                 if (valorUrlImgResposta != null) {
                     urlImgResposta = valorUrlImgResposta;
                 } else {
@@ -327,9 +334,8 @@ function organizaValoresInseridosTelaDois() {
 
 //tela 3.3
 function setTelaTresCriaQuiz() {
-    alert("entra setTelaTres");
 
-    organizaValoresInseridosTelaDois();
+    //organizaValoresInseridosTelaDois();
 
     scroll_to("body");
 
