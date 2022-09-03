@@ -61,12 +61,14 @@ function comecaQuizz(resposta) {
 //*****************************************************
 // SCRIPT LAYOUT 2 ************************************
 
+//pega o quizz do servidor e chama a openQuizz
 function openScreen2(){
-    let quizzNumber = 33;
+    let quizzNumber = 34;
     const getSpecificQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzNumber}`);
     getSpecificQuizz.then(openQuizz);
 }
 
+//coloca na tela o quizz respectivo ao clicado
 function openQuizz(response){
     console.log(response.data);
     console.log(response.data.questions);
@@ -91,13 +93,13 @@ function openQuizz(response){
         let arrayDivAnswers = document.querySelectorAll(`.imagens`);
         
         for(let j = 0; j < response.data.questions[i].answers.length; j++){
-            arrayDivAnswers[i].innerHTML += `<div class="resposta" data-identifier="answer" onclick="selecionaResposta(this)">
+            arrayDivAnswers[i].innerHTML += `<div class="resposta" data-identifier="answer" onclick="selectAnswer(this)">
             <img src="${response.data.questions[i].answers[j].image}">
             <div class="alternativa">${response.data.questions[i].answers[j].text}</div>
         </div>`
         
         let arrayAnswers = document.querySelectorAll(".resposta");
-        console.log(arrayAnswers)
+        //console.log(arrayAnswers)
             if(response.data.questions[i].answers[j].isCorrectAnswer === true){
                 arrayAnswers[j+i*4].classList.add('correctAnswer');
             } else{
@@ -113,21 +115,28 @@ function openQuizz(response){
 }
 openScreen2();
 
-{/* 
-            
-            <div class="resposta" onclick="selecionaResposta(this)"><img
-                            src="./img/gato.png">
-                    <div class="alternativa">Gatíneo</div>
-            </div>
-            <div class="resposta" onclick="selecionaResposta(this)"><img
-                            src="./img/gato.png">
-                    <div class="alternativa">Gatíneo</div>
-            </div>
-            <div class="resposta" onclick="selecionaResposta(this)"><img
-                            src="./img/gato.png">
-                    <div class="alternativa">Gatíneo</div>
-            </div>
-     */}
+//muda a aparência de acordo com a resposta
+function selectAnswer(answerPicked){
+    answerPicked.parentElement.classList.add("alreadyAnswered");
+    answerPicked.classList.add("selected");
+    const divAnswersParent = answerPicked.parentElement;
+    if(answerPicked.classList.contains("correctAnswer")){
+        answerPicked.classList.add("certa");
+    } else{
+        answerPicked.classList.add("errada");
+    }
+    
+    for(let i =0; i < divAnswersParent.childElementCount; i++){
+        if(divAnswersParent.children[i].classList.contains("selected") === false && divAnswersParent.children[i].classList.contains("correctAnswer") === true){
+            divAnswersParent.children[i].classList.add("opacidade");
+            divAnswersParent.children[i].classList.add("certa");
+        } if(divAnswersParent.children[i].classList.contains("selected") === false && divAnswersParent.children[i].classList.contains("correctAnswer") === false){
+            divAnswersParent.children[i].classList.add("opacidade");
+            divAnswersParent.children[i].classList.add("errada");
+        }
+    }
+}
+
 
 
 //*****************************************************
