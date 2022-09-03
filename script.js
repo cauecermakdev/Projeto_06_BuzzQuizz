@@ -1,4 +1,4 @@
- 
+
 //*****************************************************
 // SCRIPT LAYOUT 1 ************************************
 function deuruim(error) {
@@ -61,17 +61,17 @@ function comecaQuizz(resposta) {
 // SCRIPT LAYOUT 2 ************************************
 
 //pega o quizz do servidor e chama a openQuizz
-function openScreen2(){
+function openScreen2() {
     let quizzNumber = 34;
     const getSpecificQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzNumber}`);
     getSpecificQuizz.then(openQuizz);
 }
 
 //coloca na tela o quizz respectivo ao clicado
-function openQuizz(response){
+function openQuizz(response) {
     console.log(response.data);
     console.log(response.data.questions);
-    const showQuizz= document.querySelector(".tela2");
+    const showQuizz = document.querySelector(".tela2");
     showQuizz.innerHTML += `<div class="capa-quizz">
     <img src="${response.data.image}">
     </div>
@@ -85,24 +85,24 @@ function openQuizz(response){
 </div>`
 
     let questionsQuizzDiv = document.querySelector(".perguntasQuizz");
-    for(let i = 0; i < response.data.questions.length; i++){
+    for (let i = 0; i < response.data.questions.length; i++) {
         questionsQuizzDiv.innerHTML += `<div class="pergunta">
     <div class="questionamento display-flex-center" data-identifier="question"><a>${response.data.questions[i].title}</a></div>
     <div class="imagens"></div></div>`
         let arrayDivAnswers = document.querySelectorAll(`.imagens`);
-        
-        for(let j = 0; j < response.data.questions[i].answers.length; j++){
+
+        for (let j = 0; j < response.data.questions[i].answers.length; j++) {
             arrayDivAnswers[i].innerHTML += `<div class="resposta" data-identifier="answer" onclick="selectAnswer(this)">
             <img src="${response.data.questions[i].answers[j].image}">
             <div class="alternativa">${response.data.questions[i].answers[j].text}</div>
         </div>`
-        
-        let arrayAnswers = document.querySelectorAll(".resposta");
-        //console.log(arrayAnswers)
-            if(response.data.questions[i].answers[j].isCorrectAnswer === true){
-                arrayAnswers[j+i*4].classList.add('correctAnswer');
-            } else{
-                arrayAnswers[j+i*4].classList.add('wrongAnswer');
+
+            let arrayAnswers = document.querySelectorAll(".resposta");
+            //console.log(arrayAnswers)
+            if (response.data.questions[i].answers[j].isCorrectAnswer === true) {
+                arrayAnswers[j + i * 4].classList.add('correctAnswer');
+            } else {
+                arrayAnswers[j + i * 4].classList.add('wrongAnswer');
             }
         }
 
@@ -110,26 +110,26 @@ function openQuizz(response){
         let divColor = divQuestion.children[0]
         divColor.style.backgroundColor = `${response.data.questions[i].color}`
     }
-    
+
 }
 //openScreen2();
 
 //muda a aparência de acordo com a resposta
-function selectAnswer(answerPicked){
+function selectAnswer(answerPicked) {
     answerPicked.parentElement.classList.add("alreadyAnswered");
     answerPicked.classList.add("selected");
     const divAnswersParent = answerPicked.parentElement;
-    if(answerPicked.classList.contains("correctAnswer")){
+    if (answerPicked.classList.contains("correctAnswer")) {
         answerPicked.classList.add("certa");
-    } else{
+    } else {
         answerPicked.classList.add("errada");
     }
-    
-    for(let i =0; i < divAnswersParent.childElementCount; i++){
-        if(divAnswersParent.children[i].classList.contains("selected") === false && divAnswersParent.children[i].classList.contains("correctAnswer") === true){
+
+    for (let i = 0; i < divAnswersParent.childElementCount; i++) {
+        if (divAnswersParent.children[i].classList.contains("selected") === false && divAnswersParent.children[i].classList.contains("correctAnswer") === true) {
             divAnswersParent.children[i].classList.add("opacidade");
             divAnswersParent.children[i].classList.add("certa");
-        } if(divAnswersParent.children[i].classList.contains("selected") === false && divAnswersParent.children[i].classList.contains("correctAnswer") === false){
+        } if (divAnswersParent.children[i].classList.contains("selected") === false && divAnswersParent.children[i].classList.contains("correctAnswer") === false) {
             divAnswersParent.children[i].classList.add("opacidade");
             divAnswersParent.children[i].classList.add("errada");
         }
@@ -204,6 +204,14 @@ function mostrarPergunta(elemento) {
     //console.log(elemento.parentElement.children[1]);
 }
 
+function mostrarConteudoNivel(elemento) {
+    elemento.classList.toggle("select");
+    elemento.parentElement.parentElement.classList.toggle("minimizado");
+
+    let div_corpoDoNivel = elemento.parentElement.children[1];
+    div_corpoDoNivel.classList.toggle("display-none");
+    //console.log(elemento.parentElement.children[1]);
+}
 
 
 //coloca as perguntas na tela 3.2 dependendo da quantidade de numero de perguntas...
@@ -311,13 +319,13 @@ function setTelaDoisCriaQuiz() {
 
 //pega os valores da tela dois e organiza no meu objeto arrayPerguntas
 function organizaValoresInseridosTelaDois() {
-    
-    for (let i = 0; i < n_perguntas; i++){
+
+    for (let i = 0; i < n_perguntas; i++) {
         array_respostas = [];
 
         let tituloDaPergunta = "";
         let corHexadecimalPergunta = "";
-        
+
         let objetoPergunta = {
             title: "",
             color: "",
@@ -326,7 +334,7 @@ function organizaValoresInseridosTelaDois() {
 
         //pega todos elementos do form e coloca no meu objeto do quiz criado
         tituloDaPergunta = document.querySelector(`#tituloDaPergunta${i}`).value;
-        
+
         corHexadecimalPergunta = document.querySelector(`#corHexadecimalPergunta${i}`).value;
 
         //setando nas minhas variaveis globais o titulo da pergunta e a corHexadecimal
@@ -341,7 +349,7 @@ function organizaValoresInseridosTelaDois() {
             let textoDaResposta = "";
             let urlImgResposta = "";
             let ehrespostaCorreta = false; //false or true
-            
+
             let objetoResposta = {
                 text: "",
                 image: "",
@@ -351,13 +359,13 @@ function organizaValoresInseridosTelaDois() {
 
             //coloca no objeto reposta texto e imagem da resposta com indice j
             const seletorTextoDaResposta = document.querySelector(`#pergunta${i} #textoDaResposta${j}`);
-                
+
             if (seletorTextoDaResposta != null) {
                 const valorTextoDaResposta = seletorTextoDaResposta.value;
                 textoDaResposta = valorTextoDaResposta;
 
                 const seletorUrlImgResposta = document.querySelector(`#pergunta${i} #urlImgResposta${j}`);
-                 
+
                 if (seletorUrlImgResposta != null) {
                     const valorUrlImgResposta = seletorUrlImgResposta.value;
                     urlImgResposta = valorUrlImgResposta;
@@ -377,23 +385,23 @@ function organizaValoresInseridosTelaDois() {
                 objetoResposta.image = urlImgResposta;
                 objetoResposta.isCorrectAnswer = ehRespostaCorreta;
 
-                if(textoDaResposta != ""){
+                if (textoDaResposta != "") {
                     objetoPergunta.answers.push(objetoResposta);
                 }
-            
+
             }
             /* 
             console.log("objResposta");
             console.log(objetoResposta) */;
 
         }
-        
 
-     /*    console.log("objpergunta");
-        console.log(objetoPergunta); */
+
+        /*    console.log("objpergunta");
+           console.log(objetoPergunta); */
         //coloco no meu objeto pergunta no arrayPerguntas[i]
         array_perguntas.push(objetoPergunta);
-        
+
     }
     //console.log("array com perguntas"); 
     console.log(array_perguntas);
@@ -401,6 +409,52 @@ function organizaValoresInseridosTelaDois() {
 }
 
 //tela 3.3
+
+function colocaNiveis() {
+    let string_niveis = "";
+
+    let select;
+    let mostrarNivel;
+    let minimizado;
+
+
+
+    for (let i = 0; i < n_niveis; i++) {
+
+        if (i > 0) {
+            select = "";
+            mostrarNivel = "display-none";
+            minimizado = "minimizado";
+        } else {
+            select = "select";
+            mostrarNivel = "";
+            minimizado = "";
+        }
+
+        string_niveis += `
+        <div class="card-inputs-quiz ${minimizado}">
+            <div class="group-inputs" data-identifier="level">
+                <div class="card-edit ${select}" onclick="mostrarConteudoNivel(this)">
+                    <p class="title">Nível ${i+1}</p>
+                    <ion-icon name="create-outline" data-identifier="expand"></ion-icon>
+                </div>
+                
+                <div class = "corpoDoNivel ${mostrarNivel}">
+                    <input placeholder="Título do nível" type="text" minlength="10" id ="titulo-nivel" required/>
+                    <input placeholder="% de acerto mínima" type="number" min="0" max ="100" id ="acerto-min-nivel" required/>
+                    <input placeholder="URL da imagem do nível" type="url" id ="url-img-nivel" required/>
+                    <textarea placeholder="Descrição do nível" rows="5" minlength="30" type="text" id ="descricao-nivel" required/>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        `
+    }
+
+    return string_niveis;
+}
+
+
 function setTelaTresCriaQuiz() {
 
     organizaValoresInseridosTelaDois();
@@ -412,34 +466,8 @@ function setTelaTresCriaQuiz() {
     <p class="title">Comece pelo começo</p>
 
     <form onSubmit = "setTelaQuatroCriaQuiz()">
-        <div class="card-inputs-quiz">
-
-        
-            <div class="group-inputs" data-identifier="level">
-                <div class="card-edit select">
-                    <p class="title">Nível 2</p>
-                    <ion-icon name="create-outline" data-identifier="expand"></ion-icon>
-                </div>
-                <input placeholder="Título do nível" type="text" minlength="10" id ="titulo-nivel" required/>
-                <input placeholder="% de acerto mínima" type="number" min="0" max ="100" id ="acerto-min-nivel" required/>
-                <input placeholder="URL da imagem do nível" type="url" id ="url-img-nivel" required/>
-                <textarea placeholder="Descrição do nível" rows="5" minlength="30" type="text" id ="descricao-nivel" required/></textarea>
-            </div>
-        </div>
-
-        <div class="card-edit">
-            <p class="title">Nível 2</p>
-            <ion-icon name="create-outline" data-identifier="expand"></ion-icon>
-        </div>
-
-
-        <div class="card-edit">
-            <p class="title">Nível 3</p>
-            <ion-icon name="create-outline" data-identifier="expand"></ion-icon>
-        </div>
-
-
-        <button class="btn-primario" >Finalizar Quizz</button>
+            ${colocaNiveis()}
+            <button class="btn-primario" >Finalizar Quizz</button>
     </form>
 
     `
@@ -506,10 +534,10 @@ function post_api_criar_quizz() {
 
 //AUTOMATIZANDO OS TESTES(economizando tempo)
 
-function automatiza_testes_tela1(){
+function automatiza_testes_tela1() {
 
     document.querySelector("#titulo-quizz").value = "Titulo Pergunta muito louca";
-    document.querySelector("#url-img-quizz").value  = "https://minhaurl.com.br";
+    document.querySelector("#url-img-quizz").value = "https://minhaurl.com.br";
     document.querySelector("#n-perguntas-quizz").value = "3";
     document.querySelector("#n-niveis-quizz").value = "2";
 
@@ -517,14 +545,14 @@ function automatiza_testes_tela1(){
 automatiza_testes_tela1();
 
 
-function automatiza_testes_tela2(){
-    for(let i = 0; i < n_perguntas; i++){
+function automatiza_testes_tela2() {
+    for (let i = 0; i < n_perguntas; i++) {
         document.querySelector(`#tituloDaPergunta${i}`).value = `Titulo da pergunta ${i}`;
         document.querySelector(`#corHexadecimalPergunta${i}`).value = "#242424";
 
-        for(let j=0; j< MAX_RESPOSTA; j++){
-            document.querySelector(`#pergunta${i} #textoDaResposta${j}`).value = `Respostaa ${j}` ;
-            document.querySelector(`#pergunta${i} #urlImgResposta${j}`).value= `https://teste${j}.com.br`;
+        for (let j = 0; j < MAX_RESPOSTA; j++) {
+            document.querySelector(`#pergunta${i} #textoDaResposta${j}`).value = `Respostaa ${j}`;
+            document.querySelector(`#pergunta${i} #urlImgResposta${j}`).value = `https://teste${j}.com.br`;
         }
     }
 }
