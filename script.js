@@ -236,7 +236,7 @@ function colocaPergunta(i) {
         <div class = "corpoDaPergunta ${mostrar_pergunta}">
             <div class="group-inputs">
                     <input placeholder="Texto da pergunta" type="text" minlength="20" id = "tituloDaPergunta${i}"required/>
-                    <input placeholder="Cor de fundo da pergunta" type="text" maxlength="7" minlength="7" id = "corHexadecimalPergunta${i}">
+                    <input placeholder="Cor de fundo da pergunta" type="text" maxlength="7" minlength="7" id = "corHexadecimalPergunta${i}" required/>
             </div>
 
             <!--<div class="pergunta-content">-->
@@ -244,13 +244,13 @@ function colocaPergunta(i) {
             <div class="group-inputs">
                 <p class="title">Resposta correta</p>
                 <input placeholder="Resposta correta" type="text" id = "textoDaResposta0" required/>
-                <input placeholder="URL da imagem" type="url" id = "urlImgResposta0">
+                <input placeholder="URL da imagem" type="url" id = "urlImgResposta0" required/>
             </div>
 
             <div class="group-inputs">
                 <p class="title">Respostas incorretas</p>
                 <input placeholder="Resposta incorreta 1" type="text" id = "textoDaResposta1" required/>
-                <input placeholder="URL da imagem 1" type="url" id = "urlImgResposta1">
+                <input placeholder="URL da imagem 1" type="url" id = "urlImgResposta1" required/>
             </div>
                 
             <div class="group-inputs">
@@ -329,23 +329,12 @@ function organizaValoresInseridosTelaDois() {
         
         corHexadecimalPergunta = document.querySelector(`#corHexadecimalPergunta${i}`).value;
 
+        //setando nas minhas variaveis globais o titulo da pergunta e a corHexadecimal
         objetoPergunta.title = tituloDaPergunta;
         objetoPergunta.color = corHexadecimalPergunta;
 
-        //nas respostas
-
-
-        /*        let car = {
-                   "color": "red",
-                   "type": "cabrio",
-                   "registration": new Date('2016-05-02'),
-                   "capacity": 2
-                  }
-               cars.push(car); */
-
 
         //Montando meus objetos de resposta para cada pergunta, por isso um for
-        //VER NOS REQUISISTOS
         //pra cada pergunta no maximo tem 3 respostas - 1 correta e duas incorretas
         for (let j = 0; j < MAX_RESPOSTA; j++) {
 
@@ -388,8 +377,10 @@ function organizaValoresInseridosTelaDois() {
                 objetoResposta.image = urlImgResposta;
                 objetoResposta.isCorrectAnswer = ehRespostaCorreta;
 
-                objetoPergunta.answers.push(objetoResposta);
-                
+                if(textoDaResposta != ""){
+                    objetoPergunta.answers.push(objetoResposta);
+                }
+            
             }
             /* 
             console.log("objResposta");
@@ -422,6 +413,8 @@ function setTelaTresCriaQuiz() {
 
     <form onSubmit = "setTelaQuatroCriaQuiz()">
         <div class="card-inputs-quiz">
+
+        
             <div class="group-inputs" data-identifier="level">
                 <div class="card-edit select">
                     <p class="title">Nível 2</p>
@@ -507,7 +500,11 @@ function post_api_criar_quizz() {
 }
 
 //post_api_criar_quizz();
-//FIM DO SCRIPT CRIA QUIZZ********************Pergunta 1            
+//FIM DO SCRIPT CRIA QUIZZ********************
+
+
+
+//AUTOMATIZANDO OS TESTES(economizando tempo)
 
 function automatiza_testes_tela1(){
 
