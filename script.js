@@ -2,6 +2,7 @@
 //*****************************************************
 // SCRIPT LAYOUT 1 ************************************
 function deuruim(error) {
+    console.log("deu ruim!")
     console.log(error);
 }
 
@@ -24,10 +25,9 @@ function comecaQuizz(resposta) {
             <div class="container display-flex-center">
                 <div class="conteudo-pagina display-flex-center">
 
-                    <div class="seus-quizzes-vazio display-flex-center">
+                    <div class="seus-quizzes-vazio display-flex-center" onclick = "setTelaUmCriaQuiz();">
                         <h1>Você não criou nenhum quizz ainda :(</h1>
                         <div class="botao display-flex-center">Criar Quizz</div>
-
                     </div>
                     <div class="seus-quizzes-conteudo display-none">
                         <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png"></div>
@@ -65,8 +65,6 @@ function openScreen2(quizzNumber) {
     //let quizzNumber = 34;
     //let quizzNumber = id_quizz_criado;
 
-    //se a tela 3.4 tiver com o elemento ela tira
-    document.querySelector(".cria-quiz").innerHTML = "";
 
     const getSpecificQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzNumber}`);
     getSpecificQuizz.then(openQuizz);
@@ -116,6 +114,9 @@ function openQuizz(response) {
         divColor.style.backgroundColor = `${response.data.questions[i].color}`
     }
 
+
+    //se a tela 3.4 tiver com o elemento ela tira
+    document.querySelector(".cria-quiz").innerHTML = "";
 }
 //openScreen2(34);
 
@@ -469,7 +470,7 @@ function setTelaTresCriaQuiz() {
     organizaValoresInseridosTelaDois();
 
     scroll_to("body");
-
+    
     document.querySelector(".cria-quiz").innerHTML =
         `
     <p class="title">Comece pelo começo</p>
@@ -522,14 +523,20 @@ function organizaValoresInseridosTelaTres(){
 //setTelaTresCriaQuiz();//essa funcao chama o Layout 
 
 //tela 3.4
+
+function chamaopenScreen2(){
+    openScreen2(id_quizz_criado);
+}
+
 function quizCriadoComSucesso(){
 
-    document.querySelector(".cria-quiz").innerHTML = `
+    
+    return `
     <!--tela 3.4 - criado com sucesso -->
     <p class="title">Seu quizz está pronto!</p>
     <div class="quizz-pronto">
         <div class="quizz"><img src="${objeto_quiz_criado.image}"><a class="titulo-quizz">${objeto_quiz_criado.title}</a></div>
-        <button class="btn-primario" onclick="openScreen2(${id_quizz_criado})">Acessar Quizz</button>
+        <button class="btn-primario" onclick="chamaopenScreen2()">Acessar Quizz</button>
         <a class ="home" href="#home">Voltar para home</a>
     </div>
     `
@@ -551,12 +558,15 @@ function setTelaQuatroCriaQuiz() {
         <a class ="home" href="#home">Voltar para home</a>
     </div>
     ` */
+
+    document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 }
 
 
 //SERVIDOR LAYOUT 3
 function sucesso_requisicao_post_servidor(requisicao) {
-    //alert("deubom a requisicao de POST do Cria Quizz!");
+    
+    alert("deubom a requisicao de POST do Cria Quizz!");
     console.log(requisicao);
     console.log(requisicao.data.id);
 
@@ -580,21 +590,24 @@ function sucesso_requisicao_post_servidor(requisicao) {
         console.log(localStorage.getItem(nome_quizLocalStorage));
     }
 
-    quizCriadoComSucesso();
+    //após ser POSTado com sucesso chama página do Quiz Criado com Sucesso
+    //document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 
 }
 
 function post_api_criar_quizz() {
+    
     objeto_quiz_criado = {
         title: titulo,
         image: url_img_quizz,
         questions: array_perguntas,
         levels:array_nivel
     };
-
+    
     console.log(objeto_quiz_criado);
-
+    
     const requisicao = axios.post("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes", objeto_quiz_criado);
+    
     requisicao.then(sucesso_requisicao_post_servidor);
     requisicao.catch(deuruim);
 
@@ -650,9 +663,9 @@ function joga50NoServidor(){
     for(let i = 0 ; i < 30; i++ ){
         setTelaUmCriaQuiz();
         automatiza_testes_tela1();
-        setTimeout(100,setTelaDoisCriaQuiz);
-        setTimeout(100,setTelaTresCriaQuiz);
-        setTimeout(100,setTelaQuatroCriaQuiz);
+        setTelaDoisCriaQuiz();
+        setTelaTresCriaQuiz();
+        setTelaQuatroCriaQuiz();
     }
     alert("foi");
 }
