@@ -20,6 +20,7 @@ function comecaQuizz(resposta) {
     const url = resposta.data[0].image;
 
     const printaTela = document.querySelector(".tela1");
+    printaTela.classList.remove('display-none');
     printaTela.innerHTML +=
         `
             <div class="container display-flex-center">
