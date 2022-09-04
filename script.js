@@ -20,7 +20,9 @@ function comecaQuizz(resposta) {
     const url = resposta.data[0].image;
 
     const printaTela = document.querySelector(".tela1");
-    printaTela.classList.remove('display-none');
+    //printaTela.classList.remove('display-none');
+    printaTela.innerHTML ="";
+
     printaTela.innerHTML +=
         `
             <div class="container display-flex-center">
@@ -51,7 +53,7 @@ function comecaQuizz(resposta) {
         `
     const puxaQuizz = document.querySelector(".todos-os-quizzes");
     for (let i = 0; i < resposta.data.length; i++) {
-        puxaQuizz.innerHTML += `<div class="quizz" onclick=""><img src="${resposta.data[i].image}">
+        puxaQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data[i].id})"><img src="${resposta.data[i].image}">
                                 <a class="titulo-quizz">${resposta.data[i].title}</a></div>`
     }
 
@@ -277,13 +279,10 @@ let array_ids_meus_quizz = [];
 let titulo = "";
 let url_img_quizz = "";
 let n_perguntas = 0;
-let n_niveis = 0;
-
 //Variáveis obtidas na tela 3.2
 let array_respostas = [];
 let array_perguntas = [];
 let array_nivel = [];
-
 
 //____________________________________________________________
 //const array_answers = [];
@@ -640,7 +639,6 @@ function organizaValoresInseridosTelaTres(){
 
         array_nivel.push(objeto_nivel);
    }
-
 }
 
 
@@ -684,7 +682,7 @@ function setTelaQuatroCriaQuiz() {
     ` */
 
     //comentei aqui 13:20
-    //document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
+    document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 }
 
 
@@ -736,7 +734,7 @@ function post_api_criar_quizz() {
     requisicao.then(sucesso_requisicao_post_servidor);
     requisicao.catch(deuruim);
 
-    document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
+    //document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 
 }
 
