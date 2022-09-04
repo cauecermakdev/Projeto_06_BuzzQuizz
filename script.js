@@ -138,7 +138,7 @@ function openQuizz(response) {
     //se a tela 3.4 tiver com o elemento ela tira
     document.querySelector(".cria-quiz").innerHTML = "";
 }
-openScreen2(34);
+//openScreen2(34);
 
 //muda a aparência de acordo com a resposta
 
