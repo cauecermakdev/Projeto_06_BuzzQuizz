@@ -1,21 +1,28 @@
 
 //*****************************************************
+
+
 // SCRIPT LAYOUT 1 ************************************
 function deuruim(error) {
     console.log("deu ruim!")
     console.log(error);
 }
 
-
 function iniciaTela() {
+    window.scrollTo(0,0);
+    document.querySelector(".cria-quiz").innerHTML ="";
+
     const promessa = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
 
     promessa.then(comecaQuizz);
     promessa.catch(deuruim);
 }
-//iniciaTela(); 
+
+iniciaTela(); 
+
 
 function comecaQuizz(resposta) {
+    
     console.log(resposta);
     const url = resposta.data[0].image;
 
@@ -28,19 +35,13 @@ function comecaQuizz(resposta) {
             <div class="container display-flex-center">
                 <div class="conteudo-pagina display-flex-center">
 
-                    <div class="seus-quizzes-vazio display-flex-center" onclick = "setTelaUmCriaQuiz();">
+                    <div class="seus-quizzes-vazio display-none" onclick = "setTelaUmCriaQuiz();">
                         <h1>Você não criou nenhum quizz ainda :(</h1>
-                        <div class="botao display-flex-center">Criar Quizz</div>
+                        <div class="botao display-flex-center" >Criar Quizz</div>
                     </div>
-                    <div class="seus-quizzes-conteudo display-none">
-                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png"></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?
-                            O quão Potterhead é você? </a></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
+                    <div class="seus-quizzes-conteudo display-flex">
+                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png" onclick = "setTelaUmCriaQuiz();"></div>
+                       
                     </div>
 
                     <div class="todos-os-quizzes display-flex-center">
@@ -58,6 +59,38 @@ function comecaQuizz(resposta) {
     }
 
 
+    
+    console.log("*********************");
+    //console.log(promessa.data);
+
+    //coloca meus quizzes
+    //let tam_lista_quizzes = localStorage.getItem(nome_quizLocalStorage);
+    
+    
+    let array_ids_quizzes = splitStringLocalStorage();
+    let tam_lista_quizzes = array_ids_quizzes.length;
+
+    //console.log("tam da lista" + tam_lista_quizzes);
+    //console.log(array_ids_quizzes);
+
+    for (let i = 0; i < tam_lista_quizzes-1; i++) {
+        let idl = parseInt(array_ids_quizzes[i]);
+        console.log(idl);
+        let promessa_meus_ids = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idl}`);
+        promessa_meus_ids.then(colocaMeuQuiz);
+        
+    }
+
+
+}
+
+function colocaMeuQuiz(resposta){
+        const puxaMeuQuizz = document.querySelector(".seus-quizzes-conteudo");
+
+        console.log(resposta);
+        //console.log(resposta.data[idl].image);
+        puxaMeuQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data.id})"><img src="${resposta.data.image}">
+        <a class="titulo-quizz">${resposta.data.title}</a></div>`
 }
 
 //*****************************************************
@@ -692,7 +725,7 @@ function quizCriadoComSucesso(){
     <div class="quizz-pronto">
         <div class="quizz"><img src="${objeto_quiz_criado.image}"><a class="titulo-quizz">${objeto_quiz_criado.title}</a></div>
         <button class="btn-primario" onclick="chamaopenScreen2()">Acessar Quizz</button>
-        <a class ="home" href="#home">Voltar para home</a>
+        <a class ="home" onclick="iniciaTela()">Voltar para home</a>
     </div>
     `
 }
@@ -750,6 +783,14 @@ function sucesso_requisicao_post_servidor(requisicao) {
     //document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 
 }
+
+function splitStringLocalStorage(){
+    let string = localStorage.getItem(nome_quizLocalStorage);
+    const dadosDeserializados = JSON.parse("["+string+"]");
+
+    return dadosDeserializados;
+}
+
 
 function post_api_criar_quizz() {
     
