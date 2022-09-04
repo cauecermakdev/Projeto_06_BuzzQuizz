@@ -13,7 +13,7 @@ function iniciaTela() {
     promessa.then(comecaQuizz);
     promessa.catch(deuruim);
 }
-//iniciaTela(); 
+iniciaTela(); 
 
 function comecaQuizz(resposta) {
     console.log(resposta);
@@ -182,6 +182,11 @@ function scroll_to(string) {
 //coloca Cria Quiz, tela 1, "começar pelo começo" no HTML
 //tela 3.1
 function setTelaUmCriaQuiz() {
+
+    //zerar layout 1
+    document.querySelector(".tela1").innerHTML ="";
+
+
     const seletor = document.querySelector(".cria-quiz");
     seletor.innerHTML = `
     
@@ -201,7 +206,7 @@ function setTelaUmCriaQuiz() {
     automatiza_testes_tela1();
 }
 
-setTelaUmCriaQuiz();//essa funcao chama o Layout 3
+//setTelaUmCriaQuiz();//essa funcao chama o Layout 3
 
 
 //mostra pergunta quando clica no ícone "expand"
@@ -559,14 +564,15 @@ function setTelaQuatroCriaQuiz() {
     </div>
     ` */
 
-    document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
+    //comentei aqui 13:20
+    //document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 }
 
 
 //SERVIDOR LAYOUT 3
 function sucesso_requisicao_post_servidor(requisicao) {
     
-    alert("deubom a requisicao de POST do Cria Quizz!");
+    //alert("deubom a requisicao de POST do Cria Quizz!");
     console.log(requisicao);
     console.log(requisicao.data.id);
 
@@ -610,6 +616,8 @@ function post_api_criar_quizz() {
     
     requisicao.then(sucesso_requisicao_post_servidor);
     requisicao.catch(deuruim);
+
+    document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 
 }
 
