@@ -390,7 +390,7 @@ function colocaPergunta(i) {
         <div class = "corpoDaPergunta ${mostrar_pergunta}">
             <div class="group-inputs">
                     <input placeholder="Texto da pergunta" type="text" minlength="20" id = "tituloDaPergunta${i}"required/>
-                    <input placeholder="Cor de fundo da pergunta" type="text" maxlength="7" minlength="7" id = "corHexadecimalPergunta${i}" required/>
+                    <input placeholder="Cor de fundo da pergunta" type="text" pattern="[#]{1}[0-1-2-3-4-5-6-7-8-9-a-b-c-d-e-f]{6}" maxlength="7" minlength="7" id = "corHexadecimalPergunta${i}" required/>
             </div>
 
             <!--talvez faça sentido colocar pra esconder dps-->
@@ -438,9 +438,7 @@ function setTelaDoisCriaQuiz() {
     //comeco da tela 2
     stringTela2 = `
         <p class="title">Crie suas perguntas</p>
-        <!--<form onSubmit = "setTelaTresCriaQuiz();">--->
-        <form onSubmit = "verificaDadosTelaDois();">
-        
+        <form onSubmit = "setTelaTresCriaQuiz();">   
     `;
 
     for (let i = 0; i < n_perguntas; i++) {
@@ -603,16 +601,15 @@ function colocaNiveis() {
     return string_niveis;
 }
 
-function verificaDadosTelaDois(){
+/*function verificaDadosTelaDois(){
 
     if(isCorHexadecimal()){
         alert("deubom a cor!")
         setTelaTresCriaQuiz();
     }else{
-        alert("chama tela 2");
-        setTelaDoisCriaQuiz();
+        
     }
-}
+}*/
 
 function isCorHexadecimal(){
     let corHexa;
