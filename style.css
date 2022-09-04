@@ -233,6 +233,18 @@ h1 {
     top: 69px;
 }
 
+.tela2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quizzContent{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .capa-quizz img {
     width: 100%;
@@ -319,11 +331,88 @@ h1 {
 .opacidade{
     opacity: 0.6;
 }
-.certa{
+.certa{ 
     color: #009C22;
 }
 .errada{
     color: #FF4B4B;
+}
+
+.result{
+    width: 759px;
+    height: 430px;
+    margin-top: 44px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;    
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.resultTitle{
+    background-color: #EC362D;
+    width: 727px;
+    height: 99px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.resultTitle p{
+    font-weight: 700;
+    font-size: 23px;
+    line-height: 27px;
+    color: #FFFFFF;
+
+}
+
+.boxResult{
+    display: flex;
+    width: 727px;
+}
+
+.boxResult img{
+    width: 364px;
+    height: 273px;
+    margin-right: 21px;
+}
+.boxResult p{
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 25px;
+    color: #484848;
+}
+
+.display-none {
+    display: none;
+}
+
+.resetQuizz{
+    width: 261.18px;
+    height: 52px;
+    background-color: #EC362D;
+    color: #FFF5F4;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    text-align: center;
+    border: 0;
+    border-radius: 15px;
+    margin-top: 57px;
+}
+
+.returnHome{
+    color: #818181;
+    width: 219.64px;
+    height: 44px;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    align-items: center;
+    text-align: center;
+    margin-top: 16px;
 }
 
 /*FIM CSS layout 2*********************************/

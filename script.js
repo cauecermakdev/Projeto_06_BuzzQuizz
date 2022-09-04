@@ -61,18 +61,35 @@ function comecaQuizz(resposta) {
 //*****************************************************
 // SCRIPT LAYOUT 2 ************************************
 
+function comparador() { 
+	return Math.random() - 0.5; 
+}
+let quizzNumber =0;
+let numberOfQuestions = 0;
+let numberOfCorrectAnswers = 0;
+let score = 0;
+let numberOfQuestionsAnswered = 0;
+let varResponse;
+let nextQuestion;
+
+
 //pega o quizz do servidor e chama a openQuizz
 function openScreen2(){
-    let quizzNumber = 34;
+    const tela1 = document.querySelector(".tela1");
+    tela1.classList.add("display-none");
+    const tela2 = document.querySelector(".tela2");
+    tela2.classList.remove("display-none");
+    quizzNumber = 34;
     const getSpecificQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${quizzNumber}`);
     getSpecificQuizz.then(openQuizz);
 }
 
 //coloca na tela o quizz respectivo ao clicado
 function openQuizz(response){
+    varResponse = response.data;
     console.log(response.data);
     console.log(response.data.questions);
-    const showQuizz= document.querySelector(".tela2");
+    const showQuizz= document.querySelector(".quizzContent");
     showQuizz.innerHTML += `<div class="capa-quizz">
     <img src="${response.data.image}">
     </div>
@@ -87,12 +104,15 @@ function openQuizz(response){
 
     let questionsQuizzDiv = document.querySelector(".perguntasQuizz");
     for(let i = 0; i < response.data.questions.length; i++){
-        questionsQuizzDiv.innerHTML += `<div class="pergunta">
+        numberOfQuestions = response.data.questions.length;
+        questionsQuizzDiv.innerHTML += `<div class="pergunta unanswered">
     <div class="questionamento display-flex-center" data-identifier="question"><a>${response.data.questions[i].title}</a></div>
     <div class="imagens"></div></div>`
         let arrayDivAnswers = document.querySelectorAll(`.imagens`);
         
+        answersSort = response.data.questions[i].answers.sort(comparador); 
         for(let j = 0; j < response.data.questions[i].answers.length; j++){
+               
             arrayDivAnswers[i].innerHTML += `<div class="resposta" data-identifier="answer" onclick="selectAnswer(this)">
             <img src="${response.data.questions[i].answers[j].image}">
             <div class="alternativa">${response.data.questions[i].answers[j].text}</div>
@@ -117,11 +137,17 @@ openScreen2();
 
 //muda a aparência de acordo com a resposta
 function selectAnswer(answerPicked){
+    numberOfQuestionsAnswered = numberOfQuestionsAnswered + 1;
+    const divAnswersParent = answerPicked.parentElement;
+    //nao deixa responder de novo
+    if(divAnswersParent.classList.contains("alreadyAnswered")=== false){
+    answerPicked.parentElement.parentElement.classList.remove("unanswered");
     answerPicked.parentElement.classList.add("alreadyAnswered");
     answerPicked.classList.add("selected");
-    const divAnswersParent = answerPicked.parentElement;
+    
     if(answerPicked.classList.contains("correctAnswer")){
         answerPicked.classList.add("certa");
+        numberOfCorrectAnswers = numberOfCorrectAnswers + 1;
     } else{
         answerPicked.classList.add("errada");
     }
@@ -134,11 +160,103 @@ function selectAnswer(answerPicked){
             divAnswersParent.children[i].classList.add("opacidade");
             divAnswersParent.children[i].classList.add("errada");
         }
+        }
     }
+    score = Math.round((numberOfCorrectAnswers/numberOfQuestions)*100);
+    
+
+    if (numberOfQuestionsAnswered === numberOfQuestions){
+        setTimeout(openResult,2000);
+    } else {
+        nextQuestion = document.querySelector(".pergunta.unanswered")
+        setTimeout(scrollToNext,2000);
+    }
+    console.log(score)
+}
+
+//scroll para a próxima pergunta
+function scrollToNext(){
+    
+    console.log(nextQuestion)
+    nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 
+//resultado com base nos níveis
+function openResult(){
+    console.log("caboquiz")
+    const resultScreen = document.querySelector(".result");
+    
+    resultScreen.classList.remove('display-none');
+    console.log(varResponse.levels);
+    for(i=0; i<varResponse.levels.length;i++){
+        if(score >= varResponse.levels[i].minValue){
+            resultScreen.innerHTML = `
+            <div class="resultTitle">
+                <p>${score}% de acerto: ${varResponse.levels[i].title}</p>
+            </div>
+            <div class="boxResult">
+                <img src="${varResponse.levels[i].image}" alt=""/>
+                <p>${varResponse.levels[i].text}</p>
+            </div>  
+            `
+        }
+    }
+    resultScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const tela2 = document.querySelector(".tela2");
+    
+    tela2.innerHTML += `<button class="resetQuizz" onclick="resetQuizz()">Reiniciar Quizz</button>
+    <p class="returnHome" onclick="returnHome()">Voltar pra home</p> `
+    
+}
 
+//reseta o Quizz
+function resetQuizz(){
+
+    //reseta os scores
+    numberOfCorrectAnswers = 0;
+    score = 0;
+    numberOfQuestionsAnswered = 0;
+
+    //fecha o resultado e os botões
+    const resultScreen = document.querySelector(".result");
+    resultScreen.classList.add('display-none');
+    const botao = document.querySelector('.resetQuizz');
+    botao.classList.add('display-none');
+    const botao2 = document.querySelector('.returnHome');
+    botao2.classList.add('display-none');
+
+    //reseta as divs
+    const arrayDivsQuestions = document.querySelectorAll(".alreadyAnswered")
+    for(j=0; j < arrayDivsQuestions.length; j++){
+        arrayDivsQuestions[j].classList.remove("alreadyAnswered");
+        arrayDivsQuestions[j].parentElement.classList.add("unanswered");
+    }
+    //reseta respostas
+    const arrayOpacity = document.querySelectorAll(".opacidade");
+    for(i=0; i< arrayOpacity.length; i++){
+        arrayOpacity[i].classList.remove("opacidade");
+    }
+    const arrayCorrect = document.querySelectorAll(".certa");
+    for(k=0; k< arrayCorrect.length; k++){
+        arrayCorrect[k].classList.remove("certa")
+    }
+    const arrayIncorrect = document.querySelectorAll(".errada");
+    for(l=0; l< arrayIncorrect.length; l++){
+        arrayIncorrect[l].classList.remove("errada")
+    }
+
+    //sobe ate o comeco
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function returnHome(){
+    const tela1 = document.querySelector(".tela1");
+    tela1.classList.remove("display-none");
+    const tela2 = document.querySelector(".tela2");
+    tela2.classList.add("display-none");
+    iniciaTela();
+}
 //*****************************************************
 // SCRIPT LAYOUT 3 ************************************
 
