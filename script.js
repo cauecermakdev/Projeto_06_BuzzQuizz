@@ -174,7 +174,7 @@ function openQuizz(response) {
     //se a tela 3.4 tiver com o elemento ela tira
     document.querySelector(".cria-quiz").innerHTML = "";
 }
-//openScreen2(12506);
+//openScreen2(12506);           
 
 //muda a aparência de acordo com a resposta
 
@@ -294,6 +294,11 @@ function resetQuizz(){
     for(l=0; l< arrayIncorrect.length; l++){
         arrayIncorrect[l].classList.remove("errada")
     }
+    const arraySelected = document.querySelectorAll(".selected");
+    for(m=0; m< arraySelected.length; m++){
+        arraySelected[m].classList.remove("selected")
+    }
+
 
     //sobe ate o comeco
     window.scrollTo({ top: 0, behavior: 'smooth' });
