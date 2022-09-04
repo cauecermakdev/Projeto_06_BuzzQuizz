@@ -2,6 +2,13 @@
 <html lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--STYLES CSS-->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
 
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,59 +25,34 @@
 </head>
 
 <body>
-        <div class="cabecalho-tela1 display-flex-center"><a>BuzzQuizz</a></div>
+    <nav class="cabecalho-tela1 display-flex-center">
+        <div>
+            <a>BuzzQuizz</a>
+        </div>
+    </nav>
 
-        <!--Layout 2 --->
-        <div class="tela2 display-none">
-                <div class="capa-quizz"><img src="./imagem/Potterhead.png">
-                        <!-- <a class="chamada-quizz">O quão Potterhead é você?</a> -->
-                </div>
-                <div class="capa-preta"></div>
-                <div class="pergunta ">
-                        <div class="questionamento display-flex-center"><a>Em qual animal Olho-Tonto Moody transfigurou
-                                        Malfoy?</a></div>
-                        <div class="imagens ">
-                                <div class="resposta" onclick="selecionaResposta(this)"><img src="./imagem/gato.png">
-                                        <div class="alternativa certa">Gatíneo</div>
-                                </div>
-                                <div class="resposta opacidade" onclick="selecionaResposta(this)"><img
-                                                src="./img/gato.png">
-                                        <div class="alternativa errada">Gatíneo</div>
-                                </div>
-                                <div class="resposta opacidade" onclick="selecionaResposta(this)"><img
-                                                src="./img/gato.png">
-                                        <div class="alternativa errada">Gatíneo</div>
-                                </div>
-                                <div class="resposta opacidade" onclick="selecionaResposta(this)"><img
-                                                src="./img/gato.png">
-                                        <div class="alternativa errada">Gatíneo</div>
-                                </div>
-                        </div>
-                </div>
+    <!--Layout 1 --->
+    <div class="tela1 display-none">
+    </div>
 
+    <!--Layout 2 --->
+    <div class="tela2 display-none">   
+        <div class="quizzContent"></div>
+        <div class="result display-none" data-identifier="quizz-result">
         </div>
         <!--Layout 2 --->
 
-        <!--Layout 3 --->
-        <!--<nav>
-        <h1>BuzzQuizz</h1>
-    </nav>-->
+    <!--Layout 3 -  CRIAQUIZZ - Tela 1,2, 3 e 4 feita- Layout para criar o Quizz-->
+    <div class="criacao-quiz-center">
+        <div class="cria-quiz">
+        </div>
+    </div>
 
 
-        
-                <!--Layout CriaQuiz - Tela 1,2, 3 e 4 feita- Layout para criar o Quizz-->
-                <div class="criacao-quiz-center">
-                        <div class="cria-quiz">
-                        </div>
-                </div>
-                
-
-
-                <!--SCRIPTS-->
-
-                <!--ion-icon-->
-                <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-                <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!--SCRIPTS--------------->
+    <!--ion-icon-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
                 <!--axios-->
                 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
