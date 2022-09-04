@@ -426,7 +426,9 @@ function setTelaDoisCriaQuiz() {
     //comeco da tela 2
     stringTela2 = `
         <p class="title">Crie suas perguntas</p>
-        <form onSubmit = "setTelaTresCriaQuiz();">
+        <!--<form onSubmit = "setTelaTresCriaQuiz();">--->
+        <form onSubmit = "verificaDadosTelaDois();">
+        
     `;
 
     for (let i = 0; i < n_perguntas; i++) {
@@ -468,7 +470,9 @@ function organizaValoresInseridosTelaDois() {
         //pega todos elementos do form e coloca no meu objeto do quiz criado
         tituloDaPergunta = document.querySelector(`#tituloDaPergunta${i}`).value;
 
+        
         corHexadecimalPergunta = document.querySelector(`#corHexadecimalPergunta${i}`).value;
+   
 
         //setando nas minhas variaveis globais o titulo da pergunta e a corHexadecimal
         objetoPergunta.title = tituloDaPergunta;
@@ -587,6 +591,31 @@ function colocaNiveis() {
     return string_niveis;
 }
 
+function verificaDadosTelaDois(){
+
+    if(isCorHexadecimal()){
+        alert("deubom a cor!")
+        setTelaTresCriaQuiz();
+    }else{
+        alert("chama tela 2");
+        setTelaDoisCriaQuiz();
+    }
+}
+
+function isCorHexadecimal(){
+    let corHexa;
+    let result = true;
+
+    for(let i = 0; i < n_perguntas; i++){
+        corHexa = document.querySelector(`#corHexadecimalPergunta${i}`).value;
+        if(corHexa[0] != "#" || corHexa[1] == "#" ||corHexa[2] == "#" || corHexa[3] == "#" || corHexa[4] == "#" || corHexa[5] == "#" || corHexa[6] == "#"){
+            alert(`a cor hexadecimal inserida na pergunta ${i} não está no formato #F3F3F3`);
+            result = false;
+        }
+    }
+
+    return result;  
+}
 
 function setTelaTresCriaQuiz() {
 
