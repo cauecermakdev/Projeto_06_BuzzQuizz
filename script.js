@@ -13,7 +13,7 @@ function iniciaTela() {
     promessa.then(comecaQuizz);
     promessa.catch(deuruim);
 }
-iniciaTela(); 
+//iniciaTela(); 
 
 function comecaQuizz(resposta) {
     console.log(resposta);
@@ -141,7 +141,7 @@ function openQuizz(response) {
     //se a tela 3.4 tiver com o elemento ela tira
     document.querySelector(".cria-quiz").innerHTML = "";
 }
-//openScreen2(34);
+//openScreen2(12506);
 
 //muda a aparência de acordo com a resposta
 
@@ -198,6 +198,13 @@ function openResult(){
     
     resultScreen.classList.remove('display-none');
     console.log(varResponse.levels);
+    //organizar por ordem crescente
+
+    varResponse.levels.sort(function(a, b) {
+        return parseFloat(a.minValue) - parseFloat(b.minValue);
+    });
+    console.log(varResponse.levels)
+
     for(i=0; i<varResponse.levels.length;i++){
         if(score >= varResponse.levels[i].minValue){
             resultScreen.innerHTML = `
