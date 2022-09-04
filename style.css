@@ -335,7 +335,7 @@ h1 {
     width: 100%;
     word-break: break-all;
     margin-top: 7.75px;
-
+    overflow: hidden;
 }
 .opacidade{
     opacity: 0.6;
@@ -392,6 +392,7 @@ h1 {
     font-size: 19px;
     line-height: 25px;
     color: #484848;
+    overflow: hidden;
 }
 
 .display-none {

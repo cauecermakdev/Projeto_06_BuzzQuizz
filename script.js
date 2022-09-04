@@ -1,43 +1,47 @@
 
 //*****************************************************
+
+
 // SCRIPT LAYOUT 1 ************************************
 function deuruim(error) {
     console.log("deu ruim!")
     console.log(error);
 }
 
-
 function iniciaTela() {
+    window.scrollTo(0,0);
+    document.querySelector(".cria-quiz").innerHTML ="";
+
     const promessa = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
 
     promessa.then(comecaQuizz);
     promessa.catch(deuruim);
 }
+
 iniciaTela(); 
 
+
 function comecaQuizz(resposta) {
+    
     console.log(resposta);
     const url = resposta.data[0].image;
 
     const printaTela = document.querySelector(".tela1");
+    //printaTela.classList.remove('display-none');
+    printaTela.innerHTML ="";
+
     printaTela.innerHTML +=
         `
             <div class="container display-flex-center">
                 <div class="conteudo-pagina display-flex-center">
 
-                    <div class="seus-quizzes-vazio display-flex-center" onclick = "setTelaUmCriaQuiz();">
+                    <div class="seus-quizzes-vazio display-none" onclick = "setTelaUmCriaQuiz();">
                         <h1>Você não criou nenhum quizz ainda :(</h1>
-                        <div class="botao display-flex-center">Criar Quizz</div>
+                        <div class="botao display-flex-center" >Criar Quizz</div>
                     </div>
-                    <div class="seus-quizzes-conteudo display-none">
-                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png"></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?
-                            O quão Potterhead é você? </a></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
+                    <div class="seus-quizzes-conteudo display-flex">
+                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png" onclick = "setTelaUmCriaQuiz();"></div>
+                       
                     </div>
 
                     <div class="todos-os-quizzes display-flex-center">
@@ -50,11 +54,43 @@ function comecaQuizz(resposta) {
         `
     const puxaQuizz = document.querySelector(".todos-os-quizzes");
     for (let i = 0; i < resposta.data.length; i++) {
-        puxaQuizz.innerHTML += `<div class="quizz" onclick="open"><img src="${resposta.data[i].image}">
+        puxaQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data[i].id})"><img src="${resposta.data[i].image}">
                                 <a class="titulo-quizz">${resposta.data[i].title}</a></div>`
     }
 
 
+    
+    console.log("*********************");
+    //console.log(promessa.data);
+
+    //coloca meus quizzes
+    //let tam_lista_quizzes = localStorage.getItem(nome_quizLocalStorage);
+    
+    
+    let array_ids_quizzes = splitStringLocalStorage();
+    let tam_lista_quizzes = array_ids_quizzes.length;
+
+    //console.log("tam da lista" + tam_lista_quizzes);
+    //console.log(array_ids_quizzes);
+
+    for (let i = 0; i < tam_lista_quizzes-1; i++) {
+        let idl = parseInt(array_ids_quizzes[i]);
+        console.log(idl);
+        let promessa_meus_ids = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idl}`);
+        promessa_meus_ids.then(colocaMeuQuiz);
+        
+    }
+
+
+}
+
+function colocaMeuQuiz(resposta){
+        const puxaMeuQuizz = document.querySelector(".seus-quizzes-conteudo");
+
+        console.log(resposta);
+        //console.log(resposta.data[idl].image);
+        puxaMeuQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data.id})"><img src="${resposta.data.image}">
+        <a class="titulo-quizz">${resposta.data.title}</a></div>`
 }
 
 //*****************************************************
@@ -138,7 +174,7 @@ function openQuizz(response) {
     //se a tela 3.4 tiver com o elemento ela tira
     document.querySelector(".cria-quiz").innerHTML = "";
 }
-openScreen2(34);
+//openScreen2(12506);           
 
 //muda a aparência de acordo com a resposta
 
@@ -195,6 +231,13 @@ function openResult(){
     
     resultScreen.classList.remove('display-none');
     console.log(varResponse.levels);
+    //organizar por ordem crescente
+
+    varResponse.levels.sort(function(a, b) {
+        return parseFloat(a.minValue) - parseFloat(b.minValue);
+    });
+    console.log(varResponse.levels)
+
     for(i=0; i<varResponse.levels.length;i++){
         if(score >= varResponse.levels[i].minValue){
             resultScreen.innerHTML = `
@@ -251,6 +294,11 @@ function resetQuizz(){
     for(l=0; l< arrayIncorrect.length; l++){
         arrayIncorrect[l].classList.remove("errada")
     }
+    const arraySelected = document.querySelectorAll(".selected");
+    for(m=0; m< arraySelected.length; m++){
+        arraySelected[m].classList.remove("selected")
+    }
+
 
     //sobe ate o comeco
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -276,13 +324,10 @@ let array_ids_meus_quizz = [];
 let titulo = "";
 let url_img_quizz = "";
 let n_perguntas = 0;
-let n_niveis = 0;
-
 //Variáveis obtidas na tela 3.2
 let array_respostas = [];
 let array_perguntas = [];
 let array_nivel = [];
-
 
 //____________________________________________________________
 //const array_answers = [];
@@ -437,7 +482,7 @@ function colocaPergunta(i) {
         <div class = "corpoDaPergunta ${mostrar_pergunta}">
             <div class="group-inputs">
                     <input placeholder="Texto da pergunta" type="text" minlength="20" id = "tituloDaPergunta${i}"required/>
-                    <input placeholder="Cor de fundo da pergunta" type="text" maxlength="7" minlength="7" id = "corHexadecimalPergunta${i}" required/>
+                    <input placeholder="Cor de fundo da pergunta" type="text" pattern="[#]{1}[0-1-2-3-4-5-6-7-8-9-a-b-c-d-e-f]{6}" maxlength="7" minlength="7" id = "corHexadecimalPergunta${i}" required/>
             </div>
 
             <!--talvez faça sentido colocar pra esconder dps-->
@@ -485,7 +530,7 @@ function setTelaDoisCriaQuiz() {
     //comeco da tela 2
     stringTela2 = `
         <p class="title">Crie suas perguntas</p>
-        <form onSubmit = "setTelaTresCriaQuiz();">
+        <form onSubmit = "setTelaTresCriaQuiz();">   
     `;
 
     for (let i = 0; i < n_perguntas; i++) {
@@ -527,7 +572,9 @@ function organizaValoresInseridosTelaDois() {
         //pega todos elementos do form e coloca no meu objeto do quiz criado
         tituloDaPergunta = document.querySelector(`#tituloDaPergunta${i}`).value;
 
+        
         corHexadecimalPergunta = document.querySelector(`#corHexadecimalPergunta${i}`).value;
+   
 
         //setando nas minhas variaveis globais o titulo da pergunta e a corHexadecimal
         objetoPergunta.title = tituloDaPergunta;
@@ -644,6 +691,30 @@ function colocaNiveis() {
     return string_niveis;
 }
 
+/*function verificaDadosTelaDois(){
+
+    if(isCorHexadecimal()){
+        alert("deubom a cor!")
+        setTelaTresCriaQuiz();
+    }else{
+        
+    }
+}*/
+
+function isCorHexadecimal(){
+    let corHexa;
+    let result = true;
+
+    for(let i = 0; i < n_perguntas; i++){
+        corHexa = document.querySelector(`#corHexadecimalPergunta${i}`).value;
+        if(corHexa[0] != "#" || corHexa[1] == "#" ||corHexa[2] == "#" || corHexa[3] == "#" || corHexa[4] == "#" || corHexa[5] == "#" || corHexa[6] == "#"){
+            alert(`a cor hexadecimal inserida na pergunta ${i} não está no formato #F3F3F3`);
+            result = false;
+        }
+    }
+
+    return result;  
+}
 
 function setTelaTresCriaQuiz() {
 
@@ -696,7 +767,6 @@ function organizaValoresInseridosTelaTres(){
 
         array_nivel.push(objeto_nivel);
    }
-
 }
 
 
@@ -717,7 +787,7 @@ function quizCriadoComSucesso(){
     <div class="quizz-pronto">
         <div class="quizz"><img src="${objeto_quiz_criado.image}"><a class="titulo-quizz">${objeto_quiz_criado.title}</a></div>
         <button class="btn-primario" onclick="chamaopenScreen2()">Acessar Quizz</button>
-        <a class ="home" href="#home">Voltar para home</a>
+        <a class ="home" onclick="iniciaTela()">Voltar para home</a>
     </div>
     `
 }
@@ -740,7 +810,7 @@ function setTelaQuatroCriaQuiz() {
     ` */
 
     //comentei aqui 13:20
-    //document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
+    document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 }
 
 
@@ -776,6 +846,14 @@ function sucesso_requisicao_post_servidor(requisicao) {
 
 }
 
+function splitStringLocalStorage(){
+    let string = localStorage.getItem(nome_quizLocalStorage);
+    const dadosDeserializados = JSON.parse("["+string+"]");
+
+    return dadosDeserializados;
+}
+
+
 function post_api_criar_quizz() {
     
     objeto_quiz_criado = {
@@ -792,7 +870,7 @@ function post_api_criar_quizz() {
     requisicao.then(sucesso_requisicao_post_servidor);
     requisicao.catch(deuruim);
 
-    document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
+    //document.querySelector(".cria-quiz").innerHTML = quizCriadoComSucesso();
 
 }
 
