@@ -20,6 +20,7 @@ function comecaQuizz(resposta) {
     const url = resposta.data[0].image;
 
     const printaTela = document.querySelector(".tela1");
+    printaTela.classList.remove('display-none');
     printaTela.innerHTML +=
         `
             <div class="container display-flex-center">
@@ -138,7 +139,7 @@ function openQuizz(response) {
     //se a tela 3.4 tiver com o elemento ela tira
     document.querySelector(".cria-quiz").innerHTML = "";
 }
-openScreen2(34);
+//openScreen2(34);
 
 //muda a aparência de acordo com a resposta
 
