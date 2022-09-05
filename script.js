@@ -383,7 +383,7 @@ function setTelaUmCriaQuiz() {
     <button type="submit" class="btn-primario">Prosseguir para criar perguntas</button>
     </form>
     `
-    automatiza_testes_tela1();
+    //automatiza_testes_tela1();
 }
 
 //setTelaUmCriaQuiz();//essa funcao chama o Layout 3
@@ -505,7 +505,7 @@ function setTelaDoisCriaQuiz() {
     document.querySelector(".cria-quiz").innerHTML = stringTela2;
 
     //preenche inputs tela 2
-    automatiza_testes_tela2();
+    //automatiza_testes_tela2();
 
 }
 
@@ -689,7 +689,7 @@ function setTelaTresCriaQuiz() {
     </form>
 
     `
-    automatiza_testes_tela3();
+    //automatiza_testes_tela3();
 }
 
 //organizando dados dos Niveis
@@ -905,9 +905,9 @@ function automatiza_testes_tela3(){
 }
 
 
-/* 
-function joga50NoServidor(){
-    for(let i = 0 ; i < 30; i++ ){
+
+/* function joga3NoServidor(){
+    for(let i = 0 ; i < 3; i++ ){
         setTelaUmCriaQuiz();
         automatiza_testes_tela1();
         setTelaDoisCriaQuiz();
@@ -917,4 +917,5 @@ function joga50NoServidor(){
     alert("foi");
 }
 
-joga50NoServidor(); */
+joga3NoServidor(); 
+ */
