@@ -27,7 +27,7 @@ function comecaQuizz(resposta) {
     const url = resposta.data[0].image;
 
     const printaTela = document.querySelector(".tela1");
-    //printaTela.classList.remove('display-none');
+    printaTela.classList.remove('display-none');
     printaTela.innerHTML ="";
 
     printaTela.innerHTML +=
@@ -35,16 +35,16 @@ function comecaQuizz(resposta) {
             <div class="container display-flex-center">
                 <div class="conteudo-pagina display-flex-center">
 
-                    <div class="seus-quizzes-vazio display-none" onclick = "setTelaUmCriaQuiz();">
+                    <div class="seus-quizzes-vazio display-none">
                         <h1>Você não criou nenhum quizz ainda :(</h1>
-                        <div class="botao display-flex-center" >Criar Quizz</div>
+                        <div class="botao display-flex-center" onclick = "setTelaUmCriaQuiz()" data-identifier="create-quizz">Criar Quizz</div>
                     </div>
-                    <div class="seus-quizzes-conteudo display-flex">
-                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png" onclick = "setTelaUmCriaQuiz();"></div>
+                    <div class="seus-quizzes-conteudo display-none" data-identifier="user-quizzes">
+                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png" onclick = "setTelaUmCriaQuiz();" data-identifier="create-quizz"></div>
                        
                     </div>
 
-                    <div class="todos-os-quizzes display-flex-center">
+                    <div class="todos-os-quizzes display-flex-center" data-identifier="general-quizzes">
                         <div class="subtitulo">Todos os Quizzes</div>
 
                     </div>
@@ -54,7 +54,7 @@ function comecaQuizz(resposta) {
         `
     const puxaQuizz = document.querySelector(".todos-os-quizzes");
     for (let i = 0; i < resposta.data.length; i++) {
-        puxaQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data[i].id})"><img src="${resposta.data[i].image}">
+        puxaQuizz.innerHTML += `<div class="quizz" data-identifier="quizz-card" onclick="openScreen2(${resposta.data[i].id})"><div class ="image"></div><img src="${resposta.data[i].image}">
                                 <a class="titulo-quizz">${resposta.data[i].title}</a></div>`
     }
 
@@ -66,21 +66,31 @@ function comecaQuizz(resposta) {
     //coloca meus quizzes
     //let tam_lista_quizzes = localStorage.getItem(nome_quizLocalStorage);
     
+    if(localStorage.getItem(nome_quizLocalStorage)){
+        let array_ids_quizzes = splitStringLocalStorage();
+        let tam_lista_quizzes = array_ids_quizzes.length;
     
-    let array_ids_quizzes = splitStringLocalStorage();
-    let tam_lista_quizzes = array_ids_quizzes.length;
-
-    //console.log("tam da lista" + tam_lista_quizzes);
-    //console.log(array_ids_quizzes);
-
-    for (let i = 0; i < tam_lista_quizzes-1; i++) {
-        let idl = parseInt(array_ids_quizzes[i]);
-        console.log(idl);
-        let promessa_meus_ids = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idl}`);
-        promessa_meus_ids.then(colocaMeuQuiz);
+        //console.log("tam da lista" + tam_lista_quizzes);
+        //console.log(array_ids_quizzes);
         
-    }
+        for (let i = 0; i < tam_lista_quizzes; i++) {
+            let idl = parseInt(array_ids_quizzes[i]);
+            console.log(idl);
+            let promessa_meus_ids = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idl}`);
+            promessa_meus_ids.then(colocaMeuQuiz);
+            const retiraQuizz = document.querySelector(".seus-quizzes-conteudo");
+            retiraQuizz.classList.remove("display-none");
+            retiraQuizz.classList.add("display-flex"); 
 
+        }
+    }else{
+        const quizzVazio =document.querySelector(".seus-quizzes-vazio");
+        quizzVazio.classList.remove("display-none");
+        quizzVazio.classList.add("display-flex-center");
+        
+
+
+    }
 
 }
 
@@ -89,7 +99,7 @@ function colocaMeuQuiz(resposta){
 
         console.log(resposta);
         //console.log(resposta.data[idl].image);
-        puxaMeuQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data.id})"><img src="${resposta.data.image}">
+        puxaMeuQuizz.innerHTML += `<div class="quizz" data-identifier="quizz-card" onclick="openScreen2(${resposta.data.id})"><div class ="image"></div><img src="${resposta.data.image}">
         <a class="titulo-quizz">${resposta.data.title}</a></div>`
 }
 
@@ -174,7 +184,7 @@ function openQuizz(response) {
     //se a tela 3.4 tiver com o elemento ela tira
     document.querySelector(".cria-quiz").innerHTML = "";
 }
-//openScreen2(12506);           
+openScreen2();           
 
 //muda a aparência de acordo com a resposta
 
@@ -345,63 +355,7 @@ function scroll_to(string) {
 
 //coloca Cria Quiz, tela 1, "começar pelo começo" no HTML
 //tela1
-iniciaTela();
-function iniciaTela() {
-    const promessa = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
 
-    promessa.then(comecaQuizz);
-}
-
-function comecaQuizz(resposta) {
-    console.log(resposta);
-    const url = resposta.data[0].image;
-
-
-    const printaTela = document.querySelector("body");
-    printaTela.innerHTML +=
-        `<div class="tela1 display-none">
-            <div class="container display-flex-center">
-                <div class="conteudo-pagina display-flex-center">
-
-                    <div class="seus-quizzes-vazio display-flex-center">
-                        <h1>Você não criou nenhum quizz ainda :(</h1>
-                        <div class="botao display-flex-center">Criar Quizz</div>
-
-                    </div>
-                    <div class="seus-quizzes-conteudo display-none">
-                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png"></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?
-                            O quão Potterhead é você? </a></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
-                        <div class="quizz"><img src="./img/Potterhead.png"><a class="titulo-quizz">O quão Potterhead é
-                            você?</a></div>
-                    </div>
-
-                    <div class="todos-os-quizzes display-flex-center">
-                        <div class="subtitulo">Todos os Quizzes</div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>`
-    const puxaQuizz = document.querySelector(".todos-os-quizzes");
-    for (let i = 0; i < resposta.data.length; i++) {
-        puxaQuizz.innerHTML += `<div class="quizz" onclick=""><img src="${resposta.data[i].image}">
-                                <a class="titulo-quizz">${resposta.data[i].title}</a></div>`
-    }
-
-
-}
-
-/* function imprime(resposta) {
-    console.log(resposta.data);
-
-
-    teste.innerHTML = `<img src ="${url}">`;
-} */
 
 //tela 3.1
 function setTelaUmCriaQuiz() {
@@ -849,7 +803,7 @@ function sucesso_requisicao_post_servidor(requisicao) {
 function splitStringLocalStorage(){
     let string = localStorage.getItem(nome_quizLocalStorage);
     const dadosDeserializados = JSON.parse("["+string+"]");
-
+    console.log(dadosDeserializados);
     return dadosDeserializados;
 }
 
