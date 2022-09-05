@@ -324,6 +324,7 @@ let array_ids_meus_quizz = [];
 let titulo = "";
 let url_img_quizz = "";
 let n_perguntas = 0;
+let n_niveis;
 //Variáveis obtidas na tela 3.2
 let array_respostas = [];
 let array_perguntas = [];
@@ -360,8 +361,8 @@ function setTelaUmCriaQuiz() {
         <div class="card-inputs-quiz">
             <input placeholder ="Título do seu quizz" type="text" minlength="20" maxlength="65" id="titulo-quizz" required/>
             <input placeholder ="URL da imagem do seu quizz" type="url" name="userURL" id="url-img-quizz" required/>
-            <input placeholder ="Quantidade de perguntas do quizz" type="number" name="quantity" min="3" id="n-perguntas-quizz" required/>
-            <input placeholder ="Quantidade de níveis do quizz" type="number" name="quantity" min="2" id="n-niveis-quizz" required/>
+            <input placeholder ="Quantidade de perguntas do quizz" type="number" name="quantidadePerguntas" min="3" id="n-perguntas-quizz" required/>
+            <input placeholder ="Quantidade de níveis do quizz" type="number" name="quantidadeNiveis" min="2" id="n-niveis-quizz" required/>
         </div>  
 
     <button type="submit" class="btn-primario">Prosseguir para criar perguntas</button>
@@ -408,7 +409,7 @@ function colocaPergunta(i) {
         minimizado = "minimizado";
     } else {
         select = "select";
-        mostrar_pergunta = "";
+        mostrar_pergunta = "";  
         minimizado = "";
     }
 
@@ -598,7 +599,6 @@ function colocaNiveis() {
     let minimizado;
 
 
-
     for (let i = 0; i < n_niveis; i++) {
 
         if (i > 0) {
@@ -626,7 +626,8 @@ function colocaNiveis() {
                     <textarea placeholder="Descrição do nível" rows="5" minlength="30" type="text" id ="descricao-nivel" required/>
                     </textarea>
                 </div>
-            </div>
+            
+            </div>                                                                                                      
         </div>
         `
     }
@@ -659,7 +660,7 @@ function isCorHexadecimal(){
     return result;  
 }
 
-function setTelaTresCriaQuiz() {
+    function setTelaTresCriaQuiz() {
 
     organizaValoresInseridosTelaDois();
 
@@ -669,14 +670,26 @@ function setTelaTresCriaQuiz() {
         `
     <p class="title">Comece pelo começo</p>
 
-    <form onSubmit = "setTelaQuatroCriaQuiz()">
+    <form  action ="#"  onSubmit = "setTelaQuatroCriaQuiz(event)">
+    <!--<form action ="#"  onSubmit = "testeFuncaoSemReload(this)">--->
             ${colocaNiveis()}
             <button class="btn-primario" >Finalizar Quizz</button>
     </form>
-
     `
     automatiza_testes_tela3();
 }
+
+/* function testeFuncaoSemReload(e){
+    //setTelaQuatroCriaQuiz();
+    alert("entrando");
+    alert(e);
+    console.log(e);
+    //e.preventDefault();
+    //preventDefault();
+    //window.close();   
+    //return false;
+}
+ */
 
 //organizando dados dos Niveis
 function organizaValoresInseridosTelaTres(){
@@ -735,8 +748,33 @@ function quizCriadoComSucesso(){
     `
 }
 
+function temNivelZero(e){
+    let nivelZero = false;
 
-function setTelaQuatroCriaQuiz() {
+    const array_val_nivel = document.querySelectorAll("#acerto-min-nivel");
+    console.log(array_val_nivel[0].value);
+
+    for(let i = 0; i < n_niveis;i++){
+        if(array_val_nivel[i].value == 0){
+            nivelZero = true;
+        }
+    }
+
+    if(!nivelZero){
+        alert("É necessário criar pelo menos um Nível com '0'");
+    }
+
+    return nivelZero;
+
+}
+
+function setTelaQuatroCriaQuiz(e){
+
+    if(!temNivelZero()){
+        e.preventDefault();
+        return;
+    };
+
     scroll_to("body");
 
     organizaValoresInseridosTelaTres();
@@ -855,18 +893,17 @@ function automatiza_testes_tela3(){
 
     for(let i = 0; i < n_niveis; i++){
         array_titulos_nivel[i].value = `Titulo Nivel ${i}`;
-        array_acerto_min_nivel[i].value = "10";
+        array_acerto_min_nivel[i].value = `${i*10}`;
         array_url_img_nivel[i].value = `https://http.cat/${i}`;
         array_descricao_nivel[i].value = "A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real. Wikipédia";       
     }
 }
 
 
-/* 
+
 function joga50NoServidor(){
     for(let i = 0 ; i < 30; i++ ){
         setTelaUmCriaQuiz();
-        automatiza_testes_tela1();
         setTelaDoisCriaQuiz();
         setTelaTresCriaQuiz();
         setTelaQuatroCriaQuiz();
@@ -874,4 +911,4 @@ function joga50NoServidor(){
     alert("foi");
 }
 
-joga50NoServidor(); */
+//joga50NoServidor(); 
