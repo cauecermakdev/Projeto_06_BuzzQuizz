@@ -96,8 +96,10 @@ button:hover {
 /*CSS layout 1*********************************/
 
 .container{
+    margin-top:69px;
     padding-top:77px;
 }
+
 
 .conteudo-pagina {
     width: 1065px;
@@ -196,7 +198,7 @@ h1 {
     padding-top: 39px;
     height: 100%;
     width: 100%;
-    margin-top: 87px;
+    margin-top: 20px;
     margin-bottom: 112px;
 
     position: relative;
