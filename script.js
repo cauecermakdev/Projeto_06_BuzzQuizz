@@ -27,7 +27,7 @@ function comecaQuizz(resposta) {
     const url = resposta.data[0].image;
 
     const printaTela = document.querySelector(".tela1");
-    //printaTela.classList.remove('display-none');
+    printaTela.classList.remove('display-none');
     printaTela.innerHTML ="";
 
     printaTela.innerHTML +=
@@ -35,16 +35,16 @@ function comecaQuizz(resposta) {
             <div class="container display-flex-center">
                 <div class="conteudo-pagina display-flex-center">
 
-                    <div class="seus-quizzes-vazio display-none" onclick = "setTelaUmCriaQuiz();">
+                    <div class="seus-quizzes-vazio display-none">
                         <h1>Você não criou nenhum quizz ainda :(</h1>
-                        <div class="botao display-flex-center" >Criar Quizz</div>
+                        <div class="botao display-flex-center" onclick = "setTelaUmCriaQuiz()" data-identifier="create-quizz">Criar Quizz</div>
                     </div>
-                    <div class="seus-quizzes-conteudo display-flex">
-                        <div class=" subtitulo display-flex-center">Seus Quizzes <img src="./img/botaoadd.png" onclick = "setTelaUmCriaQuiz();"></div>
+                    <div class="seus-quizzes-conteudo display-none" data-identifier="user-quizzes">
+                        <div class=" subtitulo display-flex-center">Seus Quizzes <img class ="button_mais" src="./img/botaoadd.png" onclick = "setTelaUmCriaQuiz();" data-identifier="create-quizz"></div>
                        
                     </div>
 
-                    <div class="todos-os-quizzes display-flex-center">
+                    <div class="todos-os-quizzes display-flex-center" data-identifier="general-quizzes">
                         <div class="subtitulo">Todos os Quizzes</div>
 
                     </div>
@@ -54,7 +54,7 @@ function comecaQuizz(resposta) {
         `
     const puxaQuizz = document.querySelector(".todos-os-quizzes");
     for (let i = 0; i < resposta.data.length; i++) {
-        puxaQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data[i].id})"><img src="${resposta.data[i].image}">
+        puxaQuizz.innerHTML += `<div class="quizz" data-identifier="quizz-card" onclick="openScreen2(${resposta.data[i].id})"><div class ="image"></div><img src="${resposta.data[i].image}">
                                 <a class="titulo-quizz">${resposta.data[i].title}</a></div>`
     }
 
@@ -66,21 +66,31 @@ function comecaQuizz(resposta) {
     //coloca meus quizzes
     //let tam_lista_quizzes = localStorage.getItem(nome_quizLocalStorage);
     
+    if(localStorage.getItem(nome_quizLocalStorage)){
+        let array_ids_quizzes = splitStringLocalStorage();
+        let tam_lista_quizzes = array_ids_quizzes.length;
     
-    let array_ids_quizzes = splitStringLocalStorage();
-    let tam_lista_quizzes = array_ids_quizzes.length;
-
-    //console.log("tam da lista" + tam_lista_quizzes);
-    //console.log(array_ids_quizzes);
-
-    for (let i = 0; i < tam_lista_quizzes-1; i++) {
-        let idl = parseInt(array_ids_quizzes[i]);
-        console.log(idl);
-        let promessa_meus_ids = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idl}`);
-        promessa_meus_ids.then(colocaMeuQuiz);
+        //console.log("tam da lista" + tam_lista_quizzes);
+        //console.log(array_ids_quizzes);
         
-    }
+        for (let i = 0; i < tam_lista_quizzes; i++) {
+            let idl = parseInt(array_ids_quizzes[i]);
+            console.log(idl);
+            let promessa_meus_ids = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idl}`);
+            promessa_meus_ids.then(colocaMeuQuiz);
+            const retiraQuizz = document.querySelector(".seus-quizzes-conteudo");
+            retiraQuizz.classList.remove("display-none");
+            retiraQuizz.classList.add("display-flex"); 
 
+        }
+    }else{
+        const quizzVazio =document.querySelector(".seus-quizzes-vazio");
+        quizzVazio.classList.remove("display-none");
+        quizzVazio.classList.add("display-flex-center");
+        
+
+
+    }
 
 }
 
@@ -89,7 +99,7 @@ function colocaMeuQuiz(resposta){
 
         console.log(resposta);
         //console.log(resposta.data[idl].image);
-        puxaMeuQuizz.innerHTML += `<div class="quizz" onclick="openScreen2(${resposta.data.id})"><img src="${resposta.data.image}">
+        puxaMeuQuizz.innerHTML += `<div class="quizz" data-identifier="quizz-card" onclick="openScreen2(${resposta.data.id})"><div class ="image"></div><img src="${resposta.data.image}">
         <a class="titulo-quizz">${resposta.data.title}</a></div>`
 }
 
@@ -125,6 +135,7 @@ function openScreen2(quizzNumber) {
 //coloca na tela o quizz respectivo ao clicado
 
 function openQuizz(response) {
+    window.scrollTo(0,0);
     varResponse = response.data;
     const showQuizz= document.querySelector(".quizzContent");
     showQuizz.innerHTML += `<div class="capa-quizz">
@@ -174,7 +185,7 @@ function openQuizz(response) {
     //se a tela 3.4 tiver com o elemento ela tira
     document.querySelector(".cria-quiz").innerHTML = "";
 }
-//openScreen2(12506);           
+//openScreen2();           
 
 //muda a aparência de acordo com a resposta
 
@@ -252,9 +263,9 @@ function openResult(){
         }
     }
     resultScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    const tela2 = document.querySelector(".tela2");
-    
-    tela2.innerHTML += `<button class="resetQuizz" onclick="resetQuizz()">Reiniciar Quizz</button>
+    const buttons = document.querySelector(".buttons");
+
+    buttons.innerHTML += `<button class="resetQuizz" onclick="resetQuizz()">Reiniciar Quizz</button>
     <p class="returnHome" onclick="returnHome()">Voltar pra home</p> `
     
 }
@@ -270,10 +281,12 @@ function resetQuizz(){
     //fecha o resultado e os botões
     const resultScreen = document.querySelector(".result");
     resultScreen.classList.add('display-none');
-    const botao = document.querySelector('.resetQuizz');
-    botao.classList.add('display-none');
-    const botao2 = document.querySelector('.returnHome');
-    botao2.classList.add('display-none');
+    //const botao = document.querySelector('.resetQuizz');
+    //botao.classList.add('display-none');
+    //const botao2 = document.querySelector('.returnHome');
+    //botao2.classList.add('display-none');
+    const buttons = document.querySelector(".buttons");
+    buttons.innerHTML= "";
 
     //reseta as divs
     const arrayDivsQuestions = document.querySelectorAll(".alreadyAnswered")
@@ -324,7 +337,6 @@ let array_ids_meus_quizz = [];
 let titulo = "";
 let url_img_quizz = "";
 let n_perguntas = 0;
-let n_niveis;
 //Variáveis obtidas na tela 3.2
 let array_respostas = [];
 let array_perguntas = [];
@@ -345,6 +357,9 @@ function scroll_to(string) {
 
 
 //coloca Cria Quiz, tela 1, "começar pelo começo" no HTML
+//tela1
+
+
 //tela 3.1
 function setTelaUmCriaQuiz() {
 
@@ -361,8 +376,8 @@ function setTelaUmCriaQuiz() {
         <div class="card-inputs-quiz">
             <input placeholder ="Título do seu quizz" type="text" minlength="20" maxlength="65" id="titulo-quizz" required/>
             <input placeholder ="URL da imagem do seu quizz" type="url" name="userURL" id="url-img-quizz" required/>
-            <input placeholder ="Quantidade de perguntas do quizz" type="number" name="quantidadePerguntas" min="3" id="n-perguntas-quizz" required/>
-            <input placeholder ="Quantidade de níveis do quizz" type="number" name="quantidadeNiveis" min="2" id="n-niveis-quizz" required/>
+            <input placeholder ="Quantidade de perguntas do quizz" type="number" name="quantity" min="3" id="n-perguntas-quizz" required/>
+            <input placeholder ="Quantidade de níveis do quizz" type="number" name="quantity" min="2" id="n-niveis-quizz" required/>
         </div>  
 
     <button type="submit" class="btn-primario">Prosseguir para criar perguntas</button>
@@ -409,7 +424,7 @@ function colocaPergunta(i) {
         minimizado = "minimizado";
     } else {
         select = "select";
-        mostrar_pergunta = "";  
+        mostrar_pergunta = "";
         minimizado = "";
     }
 
@@ -598,7 +613,6 @@ function colocaNiveis() {
     let mostrarNivel;
     let minimizado;
 
-
     for (let i = 0; i < n_niveis; i++) {
 
         if (i > 0) {
@@ -626,8 +640,7 @@ function colocaNiveis() {
                     <textarea placeholder="Descrição do nível" rows="5" minlength="30" type="text" id ="descricao-nivel" required/>
                     </textarea>
                 </div>
-            
-            </div>                                                                                                      
+            </div>
         </div>
         `
     }
@@ -660,7 +673,7 @@ function isCorHexadecimal(){
     return result;  
 }
 
-    function setTelaTresCriaQuiz() {
+function setTelaTresCriaQuiz() {
 
     organizaValoresInseridosTelaDois();
 
@@ -670,26 +683,14 @@ function isCorHexadecimal(){
         `
     <p class="title">Comece pelo começo</p>
 
-    <form  action ="#"  onSubmit = "setTelaQuatroCriaQuiz(event)">
-    <!--<form action ="#"  onSubmit = "testeFuncaoSemReload(this)">--->
+     <form  action ="#"  onSubmit = "setTelaQuatroCriaQuiz(event)">
             ${colocaNiveis()}
             <button class="btn-primario" >Finalizar Quizz</button>
     </form>
+
     `
     automatiza_testes_tela3();
 }
-
-/* function testeFuncaoSemReload(e){
-    //setTelaQuatroCriaQuiz();
-    alert("entrando");
-    alert(e);
-    console.log(e);
-    //e.preventDefault();
-    //preventDefault();
-    //window.close();   
-    //return false;
-}
- */
 
 //organizando dados dos Niveis
 function organizaValoresInseridosTelaTres(){
@@ -748,6 +749,7 @@ function quizCriadoComSucesso(){
     `
 }
 
+
 function temNivelZero(e){
     let nivelZero = false;
 
@@ -768,12 +770,15 @@ function temNivelZero(e){
 
 }
 
-function setTelaQuatroCriaQuiz(e){
+ 
+
+function setTelaQuatroCriaQuiz(e) {
 
     if(!temNivelZero()){
         e.preventDefault();
         return;
     };
+
 
     scroll_to("body");
 
@@ -830,7 +835,7 @@ function sucesso_requisicao_post_servidor(requisicao) {
 function splitStringLocalStorage(){
     let string = localStorage.getItem(nome_quizLocalStorage);
     const dadosDeserializados = JSON.parse("["+string+"]");
-
+    console.log(dadosDeserializados);
     return dadosDeserializados;
 }
 
@@ -893,17 +898,18 @@ function automatiza_testes_tela3(){
 
     for(let i = 0; i < n_niveis; i++){
         array_titulos_nivel[i].value = `Titulo Nivel ${i}`;
-        array_acerto_min_nivel[i].value = `${i*10}`;
+        array_acerto_min_nivel[i].value = "10";
         array_url_img_nivel[i].value = `https://http.cat/${i}`;
         array_descricao_nivel[i].value = "A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real. Wikipédia";       
     }
 }
 
 
-
+/* 
 function joga50NoServidor(){
     for(let i = 0 ; i < 30; i++ ){
         setTelaUmCriaQuiz();
+        automatiza_testes_tela1();
         setTelaDoisCriaQuiz();
         setTelaTresCriaQuiz();
         setTelaQuatroCriaQuiz();
@@ -911,4 +917,4 @@ function joga50NoServidor(){
     alert("foi");
 }
 
-//joga50NoServidor(); 
+joga50NoServidor(); */
