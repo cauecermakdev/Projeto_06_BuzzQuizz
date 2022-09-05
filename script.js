@@ -135,6 +135,7 @@ function openScreen2(quizzNumber) {
 //coloca na tela o quizz respectivo ao clicado
 
 function openQuizz(response) {
+    window.scrollTo(0,0);
     varResponse = response.data;
     const showQuizz= document.querySelector(".quizzContent");
     showQuizz.innerHTML += `<div class="capa-quizz">
@@ -189,6 +190,7 @@ function openQuizz(response) {
 //muda a aparência de acordo com a resposta
 
 function selectAnswer(answerPicked){
+    console.log(score)
     numberOfQuestionsAnswered = numberOfQuestionsAnswered + 1;
     const divAnswersParent = answerPicked.parentElement;
     //nao deixa responder de novo
@@ -247,7 +249,7 @@ function openResult(){
         return parseFloat(a.minValue) - parseFloat(b.minValue);
     });
     console.log(varResponse.levels)
-
+    
     for(i=0; i<varResponse.levels.length;i++){
         if(score >= varResponse.levels[i].minValue){
             resultScreen.innerHTML = `
@@ -262,9 +264,10 @@ function openResult(){
         }
     }
     resultScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    const tela2 = document.querySelector(".tela2");
-    
-    tela2.innerHTML += `<button class="resetQuizz" onclick="resetQuizz()">Reiniciar Quizz</button>
+
+    const buttons = document.querySelector(".buttons");
+
+    buttons.innerHTML += `<button class="resetQuizz" onclick="resetQuizz()">Reiniciar Quizz</button>
     <p class="returnHome" onclick="returnHome()">Voltar pra home</p> `
     
 }
@@ -280,10 +283,12 @@ function resetQuizz(){
     //fecha o resultado e os botões
     const resultScreen = document.querySelector(".result");
     resultScreen.classList.add('display-none');
-    const botao = document.querySelector('.resetQuizz');
+    /* const botao = document.querySelector('.resetQuizz');
     botao.classList.add('display-none');
     const botao2 = document.querySelector('.returnHome');
-    botao2.classList.add('display-none');
+    botao2.classList.add('display-none'); */
+    const buttons = document.querySelector(".buttons");
+    buttons.innerHTML= "";
 
     //reseta as divs
     const arrayDivsQuestions = document.querySelectorAll(".alreadyAnswered")
@@ -309,7 +314,7 @@ function resetQuizz(){
         arraySelected[m].classList.remove("selected")
     }
 
-
+    console.log(score)
     //sobe ate o comeco
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
